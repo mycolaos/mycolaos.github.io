@@ -1,0 +1,132 @@
+---
+import { Image } from 'astro:assets';
+import avatarImage from "/src/assets/images/avatar.jpg"
+
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const lastBuildDate = new Date();
+const getRandomSocial =  () => Math.random() < 0.33 ? 'Twitter' : Math.random() < 0.66 ? 'Blue Sky' : 'Threads';
+
+function getRelativeBuildDate(date) {
+  const now = new Date();
+  // Zero out time for accurate day comparison
+  const d1 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const d2 = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const diffMs = d1 - d2;
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  if (diffDays === 1) return 'yesterday';
+  if (diffDays >= 2 && diffDays <= 6) return `${diffDays} days ago`;
+  if (diffDays >= 7 && diffDays <= 27) {
+    const weeks = Math.round(diffDays / 7);
+    return `${weeks} week${weeks > 1 ? 's' : ''} ago`;
+  }
+  if (diffDays >= 28 && diffDays < 365) {
+    const months = Math.round(diffDays / 30);
+    return `${months} month${months > 1 ? 's' : ''} ago`;
+  }
+  if (diffDays >= 365 && diffDays < 730) return '1 year ago';
+
+  return 'today';
+}
+
+const relativeBuildDate = getRelativeBuildDate(lastBuildDate);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1 class="text-5xl font-black mb-16">
+				<div class="inline-block relative mr-4 w-24 h-24">
+					<div id="avatar" class="transition-transform duration-2000 ease-in-out w-full h-full relative">
+						<Image class="inline-block w-24 h-24 rounded-full" alt="Mycolaos photoshot elaborated in Borderlands style" src={avatarImage} />
+							{Array.from({ length: 16 }).map((_, i) => (
+								<span
+									class="avatar-segment absolute block bg-black transform-3d"
+									style={{
+										width: '21px', // 2πr/16 ≈ 18.85 for r=48px
+										height: '3px',
+										left: 'calc(50% - 10.5px)',
+										top: 'calc(50% - 1.5px)',
+										transform: `rotate(${i * 22.5}deg) translateY(-48px)`,
+										borderRadius: '2px',
+									}}
+								></span>
+							))}
+					</div>
+				</div>
+				Hello, Netwanderer!
+			</h1>
+			<p>
+				You are witnessing a live transformation of my website. Hang on, bookmark this page, or follow me on <a href="#social-links" class="text-inherit border-b-2 border-muted-light border-dashed">{getRandomSocial()}</a>.
+			</p>
+			<p>Last time it was built is <time class="text-rose-500">{relativeBuildDate}</time> on 
+				<time class="text-rose-500">{lastBuildDate.toLocaleDateString('en-GB', { weekday: 'long', day: '2-digit', month: 'long' })}</time>.
+			</p>
+			<p class="italic font-bold">- Ok, I want to follow but...</p>
+			<p>
+				But what is the plan? I have a couple of ideas:
+			</p>
+			<ul class="mb-8 list-disc list-inside text-sm font-mono text-muted-dark">
+				<li><span title="Work in Progress right now">🚧</span> Add an interactive terminal-like widget for you to interact to discover more about me (not much), my projects and this website. Maybe some easter eggs, but this will trail to future releases. </li>
+				<li>Add more posts, finish some of my drafts.</li>
+				<li>Add a section dedicated to my projects. It's silly having a website and don't show what I've built.</li>
+				<li>Add ambient music as background.</li>
+				<li>Add some fancy tuning knobs to control the theme and music.</li>
+			</ul>
+			<p>Hopefully, I'll complete at least some of these. Maybe I'll scrap a few and do something else, who knows. Stay tuned.</p>
+			<p>
+				If you got this far, DM me on {getRandomSocial()} and tell me if you got bored here.
+			</p>
+		</main>
+		<Footer />
+	</body>
+</html>
+<style>
+#avatar {
+	perspective: 600px;
+	transform-style: preserve-3d;
+	will-change: transform;
+}
+#avatar.rotate {
+	transform: rotateY(180deg);
+}
+.avatar-segment {
+	/* The color is set via bg-primary-dark, but you can override here if needed */
+	pointer-events: none;
+	z-index: 2;
+	transition: background 0.2s;
+}
+
+.avatar-segment {
+	pointer-events: none;
+	z-index: 2;
+	transition: background 0.2s;
+	position: absolute;
+}
+.avatar-segment::after {
+	content: '';
+	display: block;
+	position: absolute;
+	background: black;
+	inset: 0;
+	bottom: 100%;
+	top: -5px;
+	border-radius: 2px;
+	transform: rotateX(90deg);
+	transform-origin: bottom;
+} 
+</style>
+<script>
+	const avatar = document.getElementById('avatar');
+	avatar?.addEventListener('click', () => {
+		avatar.classList.toggle('rotate');
+	});
+</script>
