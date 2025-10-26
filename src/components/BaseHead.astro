@@ -4,7 +4,7 @@
 import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
 import FallbackImage from '../assets/images/blog-placeholder-5.jpg';
-import { SITE_TITLE } from '../consts';
+import { SITE_TITLE, GOOGLE_ANALYTICS_ID } from '../consts';
 
 interface Props {
 	title: string;
@@ -55,3 +55,12 @@ const { title, description, image = FallbackImage } = Astro.props;
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image.src, Astro.url)} />
+
+<script type="text/partytown" async src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`}></script>
+<script type="text/partytown" define:vars={{GOOGLE_ANALYTICS_ID}}>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){ dataLayer.push(arguments); }
+	gtag('js', new Date());
+
+	gtag('config', GOOGLE_ANALYTICS_ID);
+</script>
