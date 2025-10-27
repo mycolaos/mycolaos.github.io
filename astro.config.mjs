@@ -8,7 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://mycolaos.com',
+  site: 'https://mycolaos.github.io',
   integrations: [mdx(), sitemap(), partytown({
     // Example: Add dataLayer.push as a forwarding-event.
     config: {
