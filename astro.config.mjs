@@ -19,8 +19,8 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-
-  redirects: {
-    "/engineering/[...slug]": "/[...slug]"
-  }
+  /* 
+    redirects: {
+      "/engineering/[...slug]": "/[...slug]"
+    } */
 });
