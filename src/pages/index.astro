@@ -7,32 +7,8 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
-const lastBuildDate = new Date();
+const lastBuildDate = new Date(); // This will be replaced at build time
 const getRandomSocial =  () => Math.random() < 0.33 ? 'Twitter' : Math.random() < 0.66 ? 'Blue Sky' : 'Threads';
-
-function getRelativeBuildDate(date) {
-  const now = new Date();
-  // Zero out time for accurate day comparison
-  const d1 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const d2 = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  const diffMs = d1 - d2;
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-  if (diffDays === 1) return 'yesterday';
-  if (diffDays >= 2 && diffDays <= 6) return `${diffDays} days ago`;
-  if (diffDays >= 7 && diffDays <= 27) {
-    const weeks = Math.round(diffDays / 7);
-    return `${weeks} week${weeks > 1 ? 's' : ''} ago`;
-  }
-  if (diffDays >= 28 && diffDays < 365) {
-    const months = Math.round(diffDays / 30);
-    return `${months} month${months > 1 ? 's' : ''} ago`;
-  }
-  if (diffDays >= 365 && diffDays < 730) return '1 year ago';
-
-  return 'today';
-}
-
-const relativeBuildDate = getRelativeBuildDate(lastBuildDate);
 ---
 
 <!doctype html>
@@ -67,7 +43,7 @@ const relativeBuildDate = getRelativeBuildDate(lastBuildDate);
 			<p>
 				You are witnessing a live transformation of my website. Hang on, bookmark this page, or follow me on <a href="#social-links" class="text-inherit border-b-2 border-muted-light border-dashed">{getRandomSocial()}</a>.
 			</p>
-			<p>Last time it was built is <time class="text-rose-500">{relativeBuildDate}</time> on 
+			<p>Last time it was built is <time id="relative-build-date" class="text-rose-500"></time> on 
 				<time class="text-rose-500">{lastBuildDate.toLocaleDateString('en-GB', { weekday: 'long', day: '2-digit', month: 'long' })}</time>.
 			</p>
 			<p class="italic font-bold">- Ok, I want to follow but...</p>
@@ -125,8 +101,45 @@ const relativeBuildDate = getRelativeBuildDate(lastBuildDate);
 } 
 </style>
 <script>
+	// Avatar rotation
 	const avatar = document.getElementById('avatar');
 	avatar?.addEventListener('click', () => {
 		avatar.classList.toggle('rotate');
+	});
+
+	// Relative build date calculation (client-side)
+	function getRelativeBuildDate(date) {
+		const now = new Date();
+		// Zero out time for accurate day comparison
+		const d1 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+		const d2 = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+		const diffMs = d1 - d2;
+		const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+		if (diffDays === 1) return 'yesterday';
+		if (diffDays >= 2 && diffDays <= 6) return `${diffDays} days ago`;
+		if (diffDays >= 7 && diffDays <= 27) {
+			const weeks = Math.round(diffDays / 7);
+			return `${weeks} week${weeks > 1 ? 's' : ''} ago`;
+		}
+		if (diffDays >= 28 && diffDays < 365) {
+			const months = Math.round(diffDays / 30);
+			return `${months} month${months > 1 ? 's' : ''} ago`;
+		}
+		if (diffDays >= 365 && diffDays < 730) return '1 year ago';
+		return 'today';
+	}
+
+	// Get the build date from the static time element
+	window.addEventListener('DOMContentLoaded', () => {
+		// The build date is rendered in the second time element
+		const timeEls = document.querySelectorAll('time.text-rose-500');
+		if (timeEls.length >= 2) {
+			const buildDateText = timeEls[1].textContent;
+			// Parse the build date string (format: 'Monday, 26 February')
+			// Add current year for parsing
+			const buildDate = new Date(`${buildDateText} ${new Date().getFullYear()}`);
+			const rel = getRelativeBuildDate(buildDate);
+			document.getElementById('relative-build-date').textContent = rel;
+		}
 	});
 </script>
