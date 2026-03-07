@@ -236,6 +236,5 @@ And the final answer? Do we still need vars? Sure! But, I'd rather say that <i>v
 
 <i>P.S.: Yeah, I know, there could be a discussion about using `const` almost everywhere and keep using `let` as low as possible, but that's another topic! Stay tuned!</i>
 
-<hr />
-[Discuss on Reddit]({{ page.redditUrl }})
+<hr /> 
   
