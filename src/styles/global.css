@@ -190,6 +190,10 @@ hr {
 	}
 }
 
+.content-spacing {
+	margin-bottom: calc(2 * var(--default-mb-content));
+}
+
 .callout {
 	font-size: 0.8em;
 	padding: .5em 2em;
