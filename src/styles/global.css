@@ -190,4 +190,9 @@ hr {
 	}
 }
 
-
+.callout {
+	font-size: 0.8em;
+	padding: .5em 2em;
+	border-radius: 16px;
+	backdrop-filter: brightness(90%) hue-rotate(10deg);
+}
