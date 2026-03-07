@@ -1,0 +1,322 @@
+---
+pubDate: 2026-03-07
+title: "A frosted glass story"
+description: "A story about the development of a simple but carefully crafted piece of code."
+tags: ["Web Components", "CSS", "JavaScript", "UI", "Design", "Theming", "Drop-In", "Glassmorphism", "Ice", "Frost", "Blur", "Transparency", "Visual Effects", "Effects", "Story"]
+---
+
+import FrostedGlassImport from '../../../components/FrostedGlassImport.astro';
+import FrostPostTitle from '../../../components/FrostPostTitle.astro';
+
+<FrostedGlassImport />
+<FrostPostTitle />
+
+
+It's not an article about copy-pasting some code (which you are welcome to do).
+It's a short story about the development of a simple, yet craftful piece of code
+and visual effect for our beloved web.
+
+I love winter themes, and as part of an experiment in website theming, I created
+this Frosted Glass effect. It adds a frosted glass to any element with a subtle
+melting effect on hover.
+
+The core idea is to have a drop-in component. It can be used in any website,
+regardless of the underlying technology. It is built using Web Components, which
+means it can be easily integrated into any web project without worrying about
+compatibility issues.
+
+<button type="button" class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full border-transparent cursor-pointer'>Click<frosted-glass></frosted-glass></button>
+<button class="bg-white text-black font-bold py-2 px-4 rounded-full border-2 cursor-pointer" type="button">Click<frosted-glass
+color-rgb="0,187,255"></frosted-glass></button>
+
+In the example above, the frosted glass component is simply added inside the
+button element, and it will automatically apply the frosted glass effect to the
+button. The first button has the default white frosted glass, while the second
+one has a custom color, which makes sense for a button with a white background.
+
+To summarize, design goals are:
+
+- drop-in usage, and work out-of-the-box.
+- works in any framework.
+- minimal configuration.
+- small code footprint.
+
+and here's a working code usage example:
+
+```html
+<button>
+  Click
+  <frosted-glass></frosted-glass>
+</button>
+```
+
+Now, let's dive into the story.
+
+## First iteration
+
+### Hunt for visual effect
+
+The idea was to make it part of an experiment, where user just adds the library
+and all the magic is automatically applied. First, I started to experiment with
+icy glass effect. 
+
+My first instinct was to use real ice textures. I applied css mask with several
+images, some of them looked good. But this approach has some problems: it
+doesn't scale well between different sizes and it's hard to find a free to use
+fitting pattern. I'm not a graphic designer, so I didn't try to create my own
+textures. 
+
+If image patterns are too complex, it's harder to apply them. The idea is that
+this effect should be applicable to virtually any element, and most elements
+contain text which must stay readable. Thus, a simple overlay effect seems the
+way to go.
+  
+I still believe that some custom graphic effects would be a great way to make an
+original and beautiful design, but I leave this for another time.
+
+Simple effect it must be, so I searched the depths of the internet for some
+examples as well as leveraging AI. At the end I settled with a simple repeating
+gradient pattern, with different transparency levels, a slight blur and a subtle
+shadow. I was aiming for an "ice like" effect, so I also added a slight
+"melting" animation on hover, which softens the effects and the element
+underneath becomes more prominent.
+
+The effect became less "realistic", but more suitable and recognizable as a web
+graphic effect. I think, it's more acceptable and more widely applicable.
+
+### Applying the effect as a drop-in
+
+As I mentioned in the beginning, it was a part of a bigger experiment, and the
+idea was to make it a drop-in component with as little configuration as
+possible. So the first implementation was a class that selected provided
+elements, created a new element inside to which the effect was applied.
+
+Because white frosted glass on white background didn't make sense, I
+experimented with blue color for an ice-like effect visible on white background.
+
+This brings us to a natural question, how do we decide when to apply it?
+
+I also experimented with AI is to detect the luminance of the host element and
+automatically apply a blue color for light backgrounds. But doing a few tests, I
+found that different hues respond differently to this slight blue tint, and
+although light, they can look better with white frosted glass. So I decided to
+apply it only for the white background. Plus, I'd like to avoid ship too much
+code for this simple effect, considering that it was meant to be a part of a
+bigger theme. So instead, it just detected recursively whether the host element
+has a white background.
+
+For customization, advanced users would still be able to set the color manually,
+probably by providing the color as a configuration option to the manager class.
+
+### Changing the mindset
+
+The final effect is quite simple, but I spent some time experimenting with
+images and tweaking the pattern. Now that the effect was ready I moved on and
+tried to make other effects, like sparkles and snow dust.
+
+However, doing this takes some time. Such specific effects are new to me, and
+gauging the right parameters and fitting them all together is challenging. 
+
+If you are a developer, you probably see nothing wrong with it. Just code! But
+if you want to ship a product, even as small as this, you'll notice something
+important: 
+
+I coded and researched, but I didn't ship anything.
+
+I had no idea if theming is even interesting for anyone. Thus, I decided to
+extract this effect and ship it as a standalone component, and at least get some
+real feedback on it.
+
+## Web Component
+
+If before it was meant for non-technical users first, hence the drop-in and
+auto-detect and apply idea, now it has to be developer friendly. It's the world
+I'm part of, and the most straightforward way to share.
+
+Luckily, because of its simplicity, it's easy to adapt into different forms.The
+obvious idea is to ship it as a Web Component. It encapsulates the styles and
+any necessary JavaScript and makes it easy to use in any project.
+
+It still can be used as a drop-in piece or handled by manager class, used as-is
+in developer codebases or even copypasted and tweaked as necessary.
+
+Firstly, I just created the web component class carrying over the initial
+functionality. Then, I created a detailed demo within a plain html file to
+showcase it and test.
+
+### Testing and adapting for developer use
+
+I discovered `z-index` issues which I didn't notice before since I focused on
+the effect and its usage. The effect overlay would capture mouse events and
+prevent interaction with its host element. I decided to disable
+`<frosted-glass>` pointer events and handle the hover differently, by adding
+event listeners to its host element.
+
+Because `<frosted-glass>` had a `:hover` css rule that triggered a "melting
+effect", this prompted me to create a custom state, the "melted" state, which is
+activated when mouse is over. At the time being this state can't be triggered by
+user code, but it can easily be modified in the future if it makes sense.
+
+Hover to melt:
+
+<span class="underline bg-cyan-500 text-white font-bold py2 px-4 rounded-full cursor-pointer">
+  <span>Opacity contrast</span>
+  <frosted-glass opacity=".3" melted-opacity=".05"></frosted-glass>
+</span>
+
+I still experimented with the auto-detect of the background color, and iterated
+once again with the luminance detection, and the end I decided it doesn't make
+sense at all to have this kind of functionality in a standalone component.
+Having the option to set a preferred color is enough, and if any kind of logic
+determining the color is needed, it can be implemented by the user in their
+codebase. So I removed this functionality and left it to the user to decide when
+to apply which color.
+
+<div class="flex gap-1 py-2 w-full max-w-4xl items-stretch [&>span]:p-2">
+  <span>Red<frosted-glass color-rgb="255,0,0"></frosted-glass></span>
+  <span>Neon<frosted-glass color-rgb="57,255,20"></frosted-glass></span>
+  <span>Purple<frosted-glass color-rgb="128,0,128"></frosted-glass></span>
+  <span>Metal<frosted-glass color-rgb="192,192,192"></frosted-glass></span>
+  <span>Black<frosted-glass color-rgb="0,0,0"></frosted-glass></span>
+  <span>Yellow<frosted-glass color-rgb="255,255,0"></frosted-glass></span>
+  <span>Pink<frosted-glass color-rgb="255,192,203"></frosted-glass></span>
+  <span>Cyan<frosted-glass color-rgb="0,255,255"></frosted-glass></span>
+</div>
+
+<div class="content-spacing"></div>
+
+<aside class='callout'>
+ Here I want to make a small aside about the development process. There's
+ always this dilemma between single responsibility principle and ease of use.
+
+ If you read my articles about John Ousterhout's philosophy of software design,
+ for example
+ [here](/blog/insights-on-a-philosophy-of-software-design-by-john-ousterhout/#minimize-complexity-deep-classes-and-information-hiding),
+ you know that he makes a good point that complexity must hide behind simple
+ interfaces. You provide an option and a big amount of work is done behind the
+ scenes.
+
+ But stepping aside from this idea, you must also weigh the need for
+ customization, ease of use and understanding what's going on. I don't think
+ this ideas are conflicting, but rather guiding principles for finding the
+ right balance depending on the usecase.
+
+ And not forget that your approach changes depending of the nature of the
+ "product" you are creating. Having extra functionality made sense for the
+ initial idea, but not for sharing its more focused component.
+</aside>
+
+Another important option is selecting the glass effect opacity. Simple option,
+except the fact that different parts of the pattern have varying opacity.
+Initially, I introduced it as `opacity-coefficient` which effectively was just a
+multiplier for the current values, but it was confusing, since without the upper
+limit it's not clear the effect it has. For example, a value of 2 or 3 would
+just multiply the real opacity and it's not clear when it becomes fully opaque.
+
+Moreover, if we imagine this web component used, any updates to the frosted
+pattern opacity, would create unpredictable results when the
+`opacity-coefficient` is used. And the simple solution is to make it coherent
+with the standard css `opacity` rule. I changed the name of the attribute
+`opacity-coefficient` to `opacity` and made the effects base background color
+depending on it and the pattern parts became multiplies to retain the original
+color proportions. Now, if the value of opacity is 1, the effect is fully
+opaque, and when it's 0 it's fully transparent.
+
+Opacity examples, 0.01 to 0.1 and 0.1 to 1:
+
+<div class="bg-indigo-600 p-2 rounded flex flex-wrap gap-1 py-2 w-full max-w-4xl text-center font-bold">
+  <div class="flex gap-1 py-2 w-full max-w-4xl [&>span]:p-2 [&>span]:flex-grow">
+    <span>0<frosted-glass opacity="0"></frosted-glass></span>
+    <span>.01<frosted-glass opacity=".01"></frosted-glass></span>
+    <span>.02<frosted-glass opacity=".02"></frosted-glass></span>
+    <span>.03<frosted-glass opacity=".03"></frosted-glass></span>
+    <span>.04<frosted-glass opacity=".04"></frosted-glass></span>
+    <span>.05<frosted-glass opacity=".05"></frosted-glass></span>
+    <span>.06<frosted-glass opacity=".06"></frosted-glass></span>
+    <span>.07<frosted-glass opacity=".07"></frosted-glass></span>
+    <span>.08<frosted-glass opacity=".08"></frosted-glass></span>
+    <span>.09<frosted-glass opacity=".09"></frosted-glass></span>
+    <span>.1<frosted-glass opacity=".1"></frosted-glass></span>
+  </div>
+
+  <div class="flex gap-1 py-2 w-full max-w-4xl [&>span]:p-2 [&>span]:flex-grow">
+    <span>.1<frosted-glass opacity=".1"></frosted-glass></span>
+    <span>.2<frosted-glass opacity=".2"></frosted-glass></span>
+    <span>.3<frosted-glass opacity=".3"></frosted-glass></span>
+    <span>.4<frosted-glass opacity=".4"></frosted-glass></span>
+    <span>.5<frosted-glass opacity=".5"></frosted-glass></span>
+    <span>.6<frosted-glass opacity=".6"></frosted-glass></span>
+    <span>.7<frosted-glass opacity=".7"></frosted-glass></span>
+    <span>.8<frosted-glass opacity=".8"></frosted-glass></span>
+    <span>.9<frosted-glass opacity=".9"></frosted-glass></span>
+    <span>1<frosted-glass opacity="1"></frosted-glass></span>
+  </div>
+</div>
+
+The last part I realized while testing is that it's worth having the same
+configurable options for the "melted" state, so I introduced it as well.
+
+This allows use to have a much better control over the effect and create more
+interesting interactions. 
+
+For example, a level change on hover:
+
+<span class="px-2 py-0.5 rounded text-white bg-purple-700" href="#">
+  <span class="relative z-10">Layer depth change</span>
+  <frosted-glass opacity=".22" color-rgb="0,0,0" z-index="20" melted-z-index="0"></frosted-glass>
+</span>
+
+<div class="content-spacing"></div>
+
+### From specific to general
+
+Already from the last part, you can see it was polished for a more general and
+flexible use. This brings us to a different place from when it's started, the
+winter theme. Now it became a frosted glass effect, and with the ability to
+tweak its options at will, it can serve different purposes. Use warm colors for
+a cozy and soft effect, or use it for a futuristic design with bright neon
+colors.
+
+
+<span class="px-3 py-2 rounded bg-white/80 text-blue-900">
+  <span>Arctic Blue</span>
+  <frosted-glass color-rgb="180,220,255" opacity="0.4"></frosted-glass>
+</span>
+ 
+<span class="px-3 py-2 rounded bg-orange-200 text-orange-900">
+  <span>Autumn Leaf</span>
+  <frosted-glass color-rgb="255,120,40" opacity="0.25"></frosted-glass>
+</span>
+ 
+<span class="px-3 py-2 rounded bg-black text-pink-400">
+  <span>Neon Magenta</span>
+  <frosted-glass color-rgb="255,0,255" opacity="0.25"></frosted-glass>
+</span>
+
+And here's a more elaborate and dramatic example, where the frosted glass is
+used to create a dreamy and mystical atmosphere:
+
+<span class="underline px-3 rounded-xl text-white font-bold shadow-lg cursor-pointer"
+  style="background: linear-gradient(90deg, #ff0080, #7928ca);" href="#">
+  <span>Dramatic Glass</span>
+  <frosted-glass opacity="0.35" melted-opacity="0.15" color-rgb="0,10,40" melted-color-rgb="255,255,0"
+    z-index="30" melted-z-index="0">
+  </frosted-glass>
+</span>
+
+## What is the conclusion?
+
+There's no conclusion, it's just one of thousands untold stories about
+development. There's no moral, no lesson, no "best practices". Creating is a
+journey, and every journey is different.
+
+But there's something you can do: try it, use it, and share your experience with
+this tiny visual effect:
+
+`npm install @mycolaos/frosted-glass`
+
+or copy the code from the 
+
+[Frosted Glass Github repo](https://github.com/mycolaos/frosted-glass) 
+
+**!important** when you open the repo, click on the ⭐, thanks!
