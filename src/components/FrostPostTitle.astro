@@ -1,0 +1,21 @@
+ 
+<script> 
+  import '@mycolaos/frosted-glass';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const getRandomRGB = () => Math.floor(Math.random() * 256);
+    const randomColor = `${getRandomRGB()}, ${getRandomRGB()}, ${getRandomRGB()}`;
+    const opacity = Math.random().toFixed(2);
+
+    const postDateEl = document.querySelector('.date>time');
+    // Apply the "Frosted Glass" effect to the post date element.
+    if (postDateEl) {
+      const frostedGlassEl = document.createElement('frosted-glass');
+      frostedGlassEl.setAttribute('color-rgb', randomColor);
+      frostedGlassEl.setAttribute('opacity', opacity);
+      frostedGlassEl.setAttribute('melted-opacity', '.1');
+      frostedGlassEl.setAttribute('melted-color-rgb', '255, 255, 255');
+      postDateEl.appendChild(frostedGlassEl);
+    }
+  }); 
+</script>

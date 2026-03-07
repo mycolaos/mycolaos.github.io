@@ -494,6 +494,11 @@
     unist-util-visit "^5.0.0"
     vfile "^6.0.0"
 
+"@mycolaos/frosted-glass@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/@mycolaos/frosted-glass/-/frosted-glass-2.0.0.tgz#a9ebcdc42a57f45af84935932a474b61b7ffebaa"
+  integrity sha512-+j0YFqtndOwy3rTGyk97ioWxgOA3XqszMEqepkeEbY8qTJie9nBtsWZVbl3co48UkAzfW4xjDhpxtO6qvhj5WA==
+
 "@napi-rs/wasm-runtime@^1.0.5":
   version "1.0.7"
   resolved "https://registry.npmjs.org/@napi-rs/wasm-runtime/-/wasm-runtime-1.0.7.tgz#dcfea99a75f06209a235f3d941e3460a51e9b14c"
