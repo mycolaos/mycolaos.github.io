@@ -9,6 +9,7 @@
 	--color-primary: var(--color-emerald-500);
 	--color-primary-dark: var(--color-emerald-700);
 	--color-text-on-white: var(--color-slate-950);
+	--color-text-on-dark: white;
 	--color-muted: var(--color-stone-500);
 	--color-muted-light: var(--color-stone-400);
 	--color-muted-dark: var(--color-stone-600);
@@ -17,7 +18,7 @@
 
 @layer base {
 	body {
-		@apply text-text-on-white;
+		color: light-dark(var(--color-text-on-white), var(--color-text-on-dark));
 	}
 
 	a {
