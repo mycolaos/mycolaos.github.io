@@ -1,0 +1,320 @@
+<script>
+  import '@mycolaos/frosted-glass';
+</script>
+
+<style type="text/tailwindcss">
+  /**
+   * This is the only part edited from the original "demo.html" in '@mycolaos/frosted-glass', 
+   * because it needs to import and reference tailwindcss.
+   * For some reason importing tailwind outside of this style doesn't work
+   * as expected, so it's important import it where styles are declared.
+   */ 
+  @import 'tailwindcss'; 
+  @reference 'tailwindcss';
+
+  :root {
+    color-scheme: light dark;
+  }
+
+  body {
+    background: light-dark(rgb(255, 221, 211), rgb(52, 31, 77));
+    color: light-dark(#336, white);
+    transition: background ease-in .5s;
+  }
+
+  @layer base {
+
+    button {
+      background: rgb(43, 127, 255);
+      color: white;
+      font-weight: bolder;
+      padding: .5rem 1rem;
+      border-radius: calc(infinity * 1px);
+      cursor: pointer; 
+    }
+
+    a {
+      color: light-dark(#336, white);
+    }
+
+    button:hover {
+      background: rgb(20, 71, 230);
+    }
+
+    h2 {
+      color: light-dark(darkslategray , snow);
+      opacity: .5;
+      font-weight: bold;
+      padding-bottom: .5rem;
+    }
+
+    section:hover h2 {
+      opacity: .7;
+    }
+
+    section {
+      margin-bottom: 4rem;
+    }
+
+    .items-container {
+      @apply flex flex-wrap gap-4 py-2 w-full max-w-4xl;
+    }
+
+    .theme-item {
+      @apply px-3 py-2 rounded;
+    }
+  }
+</style>
+ 
+<div class="mt-10 mx-auto pb-40 w-fit p-6">
+  <menu class="z-1 sticky top-4 ml-auto w-fit">
+    <div class="flex gap-0 text-xs font-mono rounded-full">
+      <button type="button" onclick="document.documentElement.style.colorScheme = 'light';"
+        class="rounded-e-none bg-slate-600 hover:bg-slate-700 text-gray-300 hover:text-white border-solid border-stone-700 border-2 border-r-0">Light</button>
+      <button type="button" onclick="document.documentElement.style.colorScheme = 'dark';"
+        class="rounded-s-none bg-slate-600 hover:bg-slate-700 text-gray-300 hover:text-white border-solid border-stone-700 border-2 border-l-0">Dark</button>
+      <frosted-glass></frosted-glass>
+    </div>
+  </menu>
+  <section>
+    <h2>
+      Buttons with Frosted Glass effect
+    </h2>
+    <div class="items-container items-center">
+      <button type="button">Click<frosted-glass></frosted-glass></button>
+      <button class="bg-red-500 hover:bg-red-700" type="button">Click<frosted-glass></frosted-glass></button>
+      <button class="bg-green-500 border-4 border-solid border-black"
+        type="button">Click<frosted-glass></frosted-glass></button>
+      <button class="bg-orange-400" type="button">Click<frosted-glass></frosted-glass></button>
+      <button class="bg-white text-black border-2" type="button">Click<frosted-glass
+          color-rgb="0,187,255"></frosted-glass></button>
+      <button class="bg-white text-black border-2" type="button">Click<frosted-glass></frosted-glass></button>
+      <button class="bg-black text-white border-2 border-gray-500"
+        type="button">Click<frosted-glass></frosted-glass></button>
+    </div>
+  </section>
+  <section>
+    <h2>
+      Links with various prop combos (hover to see)
+    </h2>
+    <div class="items-container [&>a]:px-2 [&>a]:py-0.5">
+      <a class="underline" href="#">Opacity contrast
+        <frosted-glass opacity=".3" melted-opacity=".05"></frosted-glass>
+      </a>
+      <a class="underline" href="#">Blue to White
+        <frosted-glass color-rgb="0,123,255" melted-color-rgb="255,255,255"></frosted-glass>
+      </a>
+      <a class="underline text-pink-600" href="#">Dark to Light Pink
+        <frosted-glass color-rgb="128,0,128" melted-color-rgb="255,192,203"></frosted-glass>
+      </a>
+      <a class="underline text-green-700 text-white" href="#">
+        <span class="relative z-10">Layer depth change 1</span>
+        <frosted-glass opacity=".25" color-rgb="57,255,20" z-index="20" melted-z-index="0"></frosted-glass>
+      </a>
+      <a class="underline" href="#">Opacity contrast reversed
+        <frosted-glass opacity=".05" melted-opacity=".3"></frosted-glass>
+      </a>
+      <a class="underline text-white bg-purple-700" href="#">
+        <span class="relative z-10">Layer depth change 2</span>
+        <frosted-glass opacity=".22" color-rgb="0,0,0" z-index="20" melted-z-index="0"></frosted-glass>
+      </a>
+      <a class="underline text-yellow-700" href="#">Color and opacity change
+        <frosted-glass opacity=".18" melted-opacity=".05" color-rgb="57,255,20"
+          melted-color-rgb="255,255,0"></frosted-glass>
+      </a>
+      <!-- Strong effect combo with styled parent -->
+      <a class="underline rounded-xl text-white font-bold shadow-lg"
+        style="background: linear-gradient(90deg, #ff0080, #7928ca);" href="#">Dramatic Glass
+        <frosted-glass opacity="0.35" melted-opacity="0.15" color-rgb="0,10,40" melted-color-rgb="255,255,0"
+          z-index="30" melted-z-index="0">
+        </frosted-glass>
+      </a>
+    </div>
+  </section>
+  <section>
+    <h2>
+      Random colors with Frosted Glass effect
+    </h2>
+    <div class="items-container items-stretch [&>span]:p-2">
+      <span>Red<frosted-glass color-rgb="255,0,0"></frosted-glass></span>
+      <span>Neon<frosted-glass color-rgb="57,255,20"></frosted-glass></span>
+      <span>Purple<frosted-glass color-rgb="128,0,128"></frosted-glass></span>
+      <span>Metal<frosted-glass color-rgb="192,192,192"></frosted-glass></span>
+      <span>Black<frosted-glass color-rgb="0,0,0"></frosted-glass></span>
+      <span>Yellow<frosted-glass color-rgb="255,255,0"></frosted-glass></span>
+      <span>Pink<frosted-glass color-rgb="255,192,203"></frosted-glass></span>
+      <span>Cyan<frosted-glass color-rgb="0,255,255"></frosted-glass></span>
+    </div>
+  </section>
+  <section>
+    <h2>
+      Opacity Examples
+    </h2>
+    <div class="items-container flex flex-col gap-4">
+      <div class="items-container [&>span]:p-2">
+        <span>0<frosted-glass opacity="0"></frosted-glass></span>
+        <span>.01<frosted-glass opacity=".01"></frosted-glass></span>
+        <span>.02<frosted-glass opacity=".02"></frosted-glass></span>
+        <span>.03<frosted-glass opacity=".03"></frosted-glass></span>
+        <span>.04<frosted-glass opacity=".04"></frosted-glass></span>
+        <span>.05<frosted-glass opacity=".05"></frosted-glass></span>
+        <span>.06<frosted-glass opacity=".06"></frosted-glass></span>
+        <span>.07<frosted-glass opacity=".07"></frosted-glass></span>
+        <span>.08<frosted-glass opacity=".08"></frosted-glass></span>
+        <span>.09<frosted-glass opacity=".09"></frosted-glass></span>
+        <span>.1<frosted-glass opacity=".1"></frosted-glass></span>
+      </div>
+      <div class="items-container [&>span]:p-2">
+        <span>.1<frosted-glass opacity=".1"></frosted-glass></span>
+        <span>.2<frosted-glass opacity=".2"></frosted-glass></span>
+        <span>.3<frosted-glass opacity=".3"></frosted-glass></span>
+        <span>.4<frosted-glass opacity=".4"></frosted-glass></span>
+        <span>.5<frosted-glass opacity=".5"></frosted-glass></span>
+        <span>.6<frosted-glass opacity=".6"></frosted-glass></span>
+        <span>.7<frosted-glass opacity=".7"></frosted-glass></span>
+        <span>.8<frosted-glass opacity=".8"></frosted-glass></span>
+        <span>.9<frosted-glass opacity=".9"></frosted-glass></span>
+        <span>1<frosted-glass opacity="1"></frosted-glass></span>
+      </div>
+  </section>
+  <section>
+    <h2>
+      Text with Frosted Glass effect
+    </h2>
+    <div class="flex flex-col items-start gap-y-2 [&>*]:px-2 [&>*]:py-1">
+      <h3 class="text-2xl font-bold rounded-xs">The Glass Season
+        <frosted-glass></frosted-glass>
+      </h3>
+      <div>
+        <p>Clear glass, cold to touch</p>
+        <p>Frozen breath of winter's air</p>
+        <p>Silent, still, and sharp.</p>
+        <!-- More translucent example -->
+        <frosted-glass opacity=".05"></frosted-glass>
+      </div>
+    </div>
+  </section>
+  <section>
+    <h2>Cool & Icy Themes</h2>
+    <div class="items-container">
+      <span class="theme-item bg-white/80 text-blue-900">Arctic Blue
+        <frosted-glass color-rgb="180,220,255" opacity="0.4"></frosted-glass>
+      </span>
+      <span class="theme-item bg-white/80 text-gray-700">Glacier White
+        <frosted-glass color-rgb="255,255,255" opacity="0.3"></frosted-glass>
+      </span>
+      <span class="theme-item bg-white/80 text-blue-700">Polar Mist
+        <frosted-glass color-rgb="200,240,255" opacity="0.35"></frosted-glass>
+      </span>
+      <span class="theme-item bg-blue-100 text-blue-800">Frozen Lake
+        <frosted-glass color-rgb="120,180,255" opacity="0.4"></frosted-glass>
+      </span>
+      <span class="theme-item bg-gray-100 text-gray-600">Silver Frost
+        <frosted-glass color-rgb="220,220,230" opacity="0.3"></frosted-glass>
+      </span>
+    </div>
+  </section>
+  <section>
+    <h2>Neon & Cyberpunk Themes</h2>
+    <div class="items-container">
+      <span class="theme-item bg-black text-pink-400">Neon Magenta
+        <frosted-glass color-rgb="255,0,255" opacity="0.25"></frosted-glass>
+      </span>
+      <span class="theme-item bg-black text-cyan-300">Electric Cyan
+        <frosted-glass color-rgb="0,255,255" opacity="0.25"></frosted-glass>
+      </span>
+      <span class="theme-item bg-black text-lime-400">Laser Green
+        <frosted-glass color-rgb="57,255,20" opacity="0.25"></frosted-glass>
+      </span>
+      <span class="theme-item bg-purple-900 text-purple-200">Ultraviolet
+        <frosted-glass color-rgb="95,0,255" opacity="0.22"></frosted-glass>
+      </span>
+      <span class="theme-item bg-pink-900 text-pink-200">Cyberpunk Pink
+        <frosted-glass color-rgb="255,0,128" opacity="0.22"></frosted-glass>
+      </span>
+      <span class="theme-item bg-blue-900 text-cyan-200">Hologram Blue
+        <frosted-glass color-rgb="0,200,255" opacity="0.22"></frosted-glass>
+      </span>
+    </div>
+  </section>
+  <section>
+    <h2>Cozy & Warm Themes</h2>
+    <div class="items-container">
+      <span class="theme-item bg-orange-100 text-orange-800">Pumpkin Spice
+        <frosted-glass color-rgb="255,153,51" opacity="0.28"></frosted-glass>
+      </span>
+      <span class="theme-item bg-yellow-100 text-yellow-800">Warm Amber
+        <frosted-glass color-rgb="255,191,71" opacity="0.28"></frosted-glass>
+      </span>
+      <span class="theme-item bg-amber-900 text-amber-100">Cocoa Brown
+        <frosted-glass color-rgb="111,78,55" opacity="0.22"></frosted-glass>
+      </span>
+      <span class="theme-item bg-red-900 text-red-100">Fireplace Red
+        <frosted-glass color-rgb="220,60,40" opacity="0.22"></frosted-glass>
+      </span>
+      <span class="theme-item bg-orange-200 text-orange-900">Autumn Leaf
+        <frosted-glass color-rgb="255,120,40" opacity="0.25"></frosted-glass>
+      </span>
+    </div>
+  </section>
+  <section>
+    <h2>Futuristic & Racing (NFS) Themes</h2>
+    <div class="items-container">
+      <span class="theme-item bg-cyan-900 text-cyan-200">Turbo Teal
+        <frosted-glass color-rgb="0,200,255" opacity="0.22"></frosted-glass>
+      </span>
+      <span class="theme-item bg-blue-900 text-blue-200">Nitrous Blue
+        <frosted-glass color-rgb="0,123,255" opacity="0.22"></frosted-glass>
+      </span>
+      <span class="theme-item bg-gray-800 text-gray-200">Carbon Fiber Gray
+        <frosted-glass color-rgb="80,80,80" opacity="0.18"></frosted-glass>
+      </span>
+      <span class="theme-item bg-red-900 text-red-200">Speed Red
+        <frosted-glass color-rgb="255,40,40" opacity="0.22"></frosted-glass>
+      </span>
+      <span class="theme-item bg-purple-900 text-purple-200">Drift Purple
+        <frosted-glass color-rgb="128,0,255" opacity="0.22"></frosted-glass>
+      </span>
+    </div>
+  </section>
+  <section>
+    <h2>Minimal & Elegant Themes</h2>
+    <div class="items-container">
+      <span class="theme-item bg-white text-gray-700">Pure White
+        <frosted-glass color-rgb="255,255,255" opacity="0.18"></frosted-glass>
+      </span>
+      <span class="theme-item bg-black text-gray-200">Soft Black
+        <frosted-glass color-rgb="0,0,0" opacity="0.18"></frosted-glass>
+      </span>
+      <span class="theme-item bg-gray-200 text-gray-700">Misty Gray
+        <frosted-glass color-rgb="220,220,220" opacity="0.18"></frosted-glass>
+      </span>
+      <span class="theme-item bg-yellow-100 text-yellow-700">Champagne Gold
+        <frosted-glass color-rgb="255,215,120" opacity="0.18"></frosted-glass>
+      </span>
+      <span class="theme-item bg-pink-100 text-pink-700">Blush Pink
+        <frosted-glass color-rgb="255,192,203" opacity="0.18"></frosted-glass>
+      </span>
+    </div>
+  </section>
+  <section>
+    <h2>Nature Inspired Themes</h2>
+    <div class="items-container">
+      <span class="theme-item bg-green-100 text-green-900">Forest Green
+        <frosted-glass color-rgb="34,139,34" opacity="0.22"></frosted-glass>
+      </span>
+      <span class="theme-item bg-blue-100 text-blue-900">Ocean Blue
+        <frosted-glass color-rgb="0,105,148" opacity="0.22"></frosted-glass>
+      </span>
+      <span class="theme-item bg-yellow-50 text-yellow-900">Sandstone
+        <frosted-glass color-rgb="237,201,175" opacity="0.18"></frosted-glass>
+      </span>
+      <span class="theme-item bg-orange-100 text-orange-900">Sunset Orange
+        <frosted-glass color-rgb="255,94,77" opacity="0.22"></frosted-glass>
+      </span>
+      <span class="theme-item bg-purple-100 text-purple-900">Lavender Field
+        <frosted-glass color-rgb="181,126,220" opacity="0.22"></frosted-glass>
+      </span>
+    </div>
+  </section>
+</div>

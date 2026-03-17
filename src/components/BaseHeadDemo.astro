@@ -1,12 +1,12 @@
 ---
 /**
- * ? This is standard base for most pages. At the moment of this commit,
- * ? the only difference is that it uses global styles.
+ * ? This is base for Demo pages. At the moment of this commit,
+ * ? the only difference is that it's not using global styles, but imports 
+ * ? tailwind only.
+ * ? The idea is to able to copypaste demo code without the interference of 
+ * ? the main site styles.
  */
 
-// Import the global.css file here so that it is included on
-// all pages through the use of the <BaseHead /> component.
-import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
 import BaseHeadNoStyles from './BaseHeadNoStyles.astro';
 
