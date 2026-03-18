@@ -29,7 +29,7 @@ const posts = (await getCollection('blog')).sort(
 							return (
 							<li class="no-underline mb-8">
 								{isFrosted && <frosted-glass color-rgb="0, 187, 255" melted-color-rgb="120,215,215" class="absolute -inset-2 rounded pointer-events-none"></frosted-glass>}
-								<a class="group text-text-on-white dark:text-text-on-dark hover:text-primary!" href={`/blog/${post.id}/`}>
+								<a class="group text-text-on-white darkDISABLED:text-text-on-dark hover:text-primary!" href={`/blog/${post.id}/`}>
 									{post.data.heroImage && (
 										<Image width={720} height={360} src={post.data.heroImage} alt="" />
 									)}
