@@ -6,9 +6,21 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getCollection } from 'astro:content';
 
 const lastBuildDate = new Date(); // This will be replaced at build time
 const getRandomSocial =  () => Math.random() < 0.33 ? 'Twitter' : Math.random() < 0.66 ? 'Blue Sky' : 'Threads';
+
+// Fetch and sort blog posts
+const allPosts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const latestPost = allPosts[0];
+const recentPosts = allPosts.slice(1, 4);
+
+// Use the description from the post's frontmatter
+const excerpt = latestPost.data.excerpt || '';
 ---
 
 <!doctype html>
@@ -18,54 +30,74 @@ const getRandomSocial =  () => Math.random() < 0.33 ? 'Twitter' : Math.random() 
 	</head>
 	<body>
 		<Header />
-		<main>
-			<h1 class="text-5xl font-black mb-16">
-				<div class="inline-block relative mr-4 w-24 h-24">
-					<div id="avatar" class="transition-transform duration-2000 ease-in-out w-full h-full relative">
-						<Image class="inline-block w-24 h-24 rounded-full" alt="Mycolaos photoshot elaborated in Borderlands style" src={avatarImage} />
-							{Array.from({ length: 16 }).map((_, i) => (
-								<span
-									class="avatar-segment absolute block bg-black transform-3d"
-									style={{
-										width: '21px', // 2πr/16 ≈ 18.85 for r=48px
-										height: '3px',
-										left: 'calc(50% - 10.5px)',
-										top: 'calc(50% - 1.5px)',
-										transform: `rotate(${i * 22.5}deg) translateY(-48px)`,
-										borderRadius: '2px',
-									}}
-								></span>
-							))}
+		<div class="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto px-4 py-8">
+			<main class="flex-1 min-w-0">
+				<h1 class="text-5xl font-black mb-0">
+					<div class="inline-block relative mr-4 w-24 h-24">
+						<div id="avatar" class="transition-transform duration-2000 ease-in-out w-full h-full relative">
+							<Image class="inline-block w-24 h-24 rounded-full" alt="Mycolaos photoshot elaborated in Borderlands style" src={avatarImage} />
+								{Array.from({ length: 16 }).map((_, i) => (
+									<span
+										class="avatar-segment absolute block bg-black transform-3d"
+										style={{
+											width: '21px', // 2πr/16 ≈ 18.85 for r=48px
+											height: '3px',
+											left: 'calc(50% - 10.5px)',
+											top: 'calc(50% - 1.5px)',
+											transform: `rotate(${i * 22.5}deg) translateY(-48px)`,
+											borderRadius: '2px',
+										}}
+									></span>
+								))}
+						</div>
+					</div>
+					Hello, Netwanderer!
+				</h1>
+				<div class="ml-28">
+					<p>💡 Click a button</p>
+					<div class="w-80 grid grid-cols-3 [grid-template-areas:'a_b_c'] gap-1 text-[saddlebrown]">
+						<button id="target-a" class="col-span-1 [grid-area:a] rounded-lg border-[saddlebrown]">Target A</button>
+						<button id="target-b" class="col-span-1 [grid-area:b] rounded-lg border-[saddlebrown]">Target B</button>
+						<span explanation-for-devs="It holds area class name so Tailwind can generate it." class="[grid-area:c] -z-10"></span>
 					</div>
 				</div>
-				Hello, Netwanderer!
-			</h1>
-			<p>
-				You are witnessing a live transformation of my website. Hang on, bookmark this page, or follow me on <a href="#social-links" class="text-inherit border-b-2 border-muted-light border-dashed">{getRandomSocial()}</a>.
-			</p>
-			<p>Last time it was built is <time id="relative-build-date" class="text-rose-500"></time> on 
-				<time class="text-rose-500">{lastBuildDate.toLocaleDateString('en-GB', { weekday: 'long', day: '2-digit', month: 'long' })}</time>.
-			</p>
-			<p class="italic font-bold">- Ok, I want to follow but...</p>
-			<p>
-				But what is the plan? I have a couple of ideas:
-			</p>
-			<ul class="mb-8 list-disc list-inside text-sm font-mono text-muted-dark">
-				<li><span title="Work in Progress right now">🚧</span> Add an interactive terminal-like widget for you to interact to discover more about me (not much), my projects and this website. Maybe some easter eggs, but this will trail to future releases. </li>
-				<li>Add more posts, finish some of my drafts.</li>
-				<li>Add a section dedicated to my projects. It's silly having a website and don't show what I've built.</li>
-				<li>Add ambient music as background.</li>
-				<li>Add some fancy tuning knobs to control the theme and music.</li>
-			</ul>
-			<p>Hopefully, I'll complete at least some of these. Maybe I'll scrap a few and do something else, who knows. Stay tuned.</p>
-			<p>
-				If you got this far, DM me on {getRandomSocial()} and tell me if you got bored here.
-			</p>
-		</main>
+			</main>
+			
+			<aside class="lg:w-80 pt-16 flex-shrink-0">
+				<div class="sticky top-8">
+					<!-- Latest Post -->
+					<div class="mb-6 px-3 py-6 border border-stone-300 rounded-lg bg-white/50 backdrop-blur-lg">
+						<a href={`/blog/${latestPost.id}/`} class="group block">
+							<h4 class="mt-0 mb-1 text-sm font-bold leading-tightgroup-hover:text-primary-dark">{latestPost.data.title}</h4>
+							<p class="m-0 text-xs text-muted-dark leading-relaxed italic font-serif">{excerpt}</p>
+						</a>
+					</div>
+
+					<!-- Explore -->
+					<div>
+						<h3 class="text-sm m-0 font-bold">Explore</h3>
+						<ul class="space-y-0 list-none m-0">
+							{recentPosts.map((post) => (
+								<li>
+									<a href={`/blog/${post.id}/`}>
+										<h4 class="mt-1 mb-2 text-xs leading-tight hover:text-primary-dark">{post.data.title}</h4>
+									</a>
+								</li>
+							))}
+						</ul>
+						<a href="/blog/" class="inline-block text-xs font-bold hover:text-primary-dark border-b-2 border-primary hover:border-primary-dark">
+							More posts →
+						</a>
+					</div>
+				</div>
+			</aside>
+		</div>
+		
 		<Footer />
 	</body>
 </html>
 <style>
+
 #avatar {
 	perspective: 600px;
 	transform-style: preserve-3d;
@@ -141,5 +173,34 @@ const getRandomSocial =  () => Math.random() < 0.33 ? 'Twitter' : Math.random() 
 			const rel = getRelativeBuildDate(buildDate);
 			document.getElementById('relative-build-date').textContent = rel;
 		}
+		// Button position shift on mouse down
+		const targetA = document.getElementById('target-a');
+		const targetB = document.getElementById('target-b');		
+		
+		if (!targetA || !targetB) {
+			console.error('Target buttons not found');
+			return;
+		}
+		
+		const areas = ['a', 'b', 'c']
+		const getButtonsGridEmptyArea = () => {
+			const targetAArea = targetA?.className.match(/grid-area:([abc])/)?.[1];
+			const targetBArea = targetB?.className.match(/grid-area:([abc])/)?.[1];
+			console.log('targetAArea', targetAArea);
+			console.log('targetBArea', targetBArea);
+			return areas.find(area => area !== targetAArea && area !== targetBArea);
+		};
+
+		targetA.addEventListener('mousedown', (e) => {
+			const emptyArea = getButtonsGridEmptyArea();
+			console.log('a', emptyArea);
+			targetA.className = targetA.className.replace(/grid-area:([abc])/, `grid-area:${emptyArea}`);
+		});
+
+		targetB.addEventListener('mousedown', (e) => {
+			const emptyArea = getButtonsGridEmptyArea();
+			console.log('b', emptyArea);
+			targetB.className = targetB.className.replace(/grid-area:([abc])/, `grid-area:${emptyArea}`);
+		});
 	});
 </script>

@@ -4,6 +4,11 @@ title: 'Mastering Code Simplicity: Why Deep Functions Like JSON.parse() Make Pro
 description: 'Discover the power of deep functions in simplifying complex tasks. Learn how functions like JSON.parse() encapsulate complexity behind simple interfaces, making coding more efficient and maintainable.'
 tags:
   ['Software Engineering', 'Javascript', 'Software Design']
+excerpt: I love the concept of "deep functions" by Dr. Ousterhout. It's a profound insight on the way we code.
+
+  At its core, this approach is all about simplifying complex tasks through well-designed functions.
+
+  Instead of useless debates about functions length, we should focus on creating functions that are simple to use and understand by hiding maximum complexity behind the simplest interface possible.
 ---
 
 I love the concept of "deep functions" by Dr. Ousterhout. It's a profound insight on the way we code.
