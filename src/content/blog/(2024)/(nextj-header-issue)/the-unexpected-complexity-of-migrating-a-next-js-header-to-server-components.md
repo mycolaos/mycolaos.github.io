@@ -4,6 +4,7 @@ title: 'The Unexpected Complexity of Migrating a Next.js Header to Server Compon
 description: 'Exploring the challenges and solutions in refactoring a Next.js Header component from client-side to server-side rendering.'
 tags:
   ['Software Engineering', 'Javascript', 'Next.js', 'Server Side Rendering', 'Routing']
+excerpt: I recently began the process of refactoring my Next.js App Router project. It was initially built as a client-side app using the Page Router, but now I want to simplify the architecture and improve performance by migrating more to server-side components.
 ---
 
 I recently began the process of refactoring my Next.js App Router project. It was initially built as a client-side app using the Page Router, but now I want to simplify the architecture and improve performance by migrating more to server-side components. To my surprise, something as seemingly simple as the `Header` component has proven more difficult than expected.

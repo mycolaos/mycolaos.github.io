@@ -3,6 +3,7 @@ pubDate: '2023-12-27'
 title: 'Insights on "A Philosophy of Software Design" by John Ousterhout'
 description: 'Key takeaways and practical advice from John Ousterhout’s philosophy on software design, focusing on minimizing complexity and strategic programming.'
 tags: [Software Engineering, Software Design] 
+excerpt: Have you ever wondered what constitutes good software design? John Ousterhout points out that there's no universal agreement on this.
 ---
 
 - [What are the Secrets of Software Design?](#what-are-the-secrets-of-software-design)

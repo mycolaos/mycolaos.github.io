@@ -3,6 +3,7 @@ pubDate: '2024-07-14'
 title: '4x4 Tips for Quick and Easy Mental Math: Boost Your Calculation Skills'
 description: 'Enhance your mental math skills with these 4x4 tips for quick and easy calculations. Learn multiplication, division, and squaring techniques to boost your calculation speed and accuracy.'
 tags: ['Math', 'Skills']
+excerpt: Since my childhood, I've always done mental math, especially when handling money. I didn't do anything special, just simple tricks like adding or removing zeros when dealing with multiples of ten or splitting numbers into smaller parts.
 ---
 
 - [Intro](#intro)

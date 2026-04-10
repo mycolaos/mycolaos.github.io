@@ -4,6 +4,7 @@ description: What are the differences between var and let, and when var is still
 pubDate: 2017-06-17
 tags: [Software Engineering, Javascript] 
 redditUrl: https://www.reddit.com/r/javascript/comments/6i0ho4/is_there_any_reason_to_use_javascripts_var
+excerpt: Are you already using `let`? If you have just started to use it, you could have a question — "should I still use `var` somewhere?"
 ---
 
 Are you already using `let`? If you have just started to use it, you could have a question — “should I still use `var` somewhere?”

@@ -4,6 +4,7 @@ description: A simple, reusable, responsive pyramid chart component made with pu
 pubDate: 2017-07-19
 tags: [Software Engineering, Code fun]
 redditUrl: https://www.reddit.com/user/mycolaos/comments/nzndny/interactive_pyramid_chart_component_with_pure_css
+excerpt: Let's say you want to create the food pyramid. You know, — eat 11 servings of whole grains, 9 servings of fruits and vegetable, 6 servings of diary and something like 2 servings of grass, oil and sweets.
 ---
 
 Let's say you want to create the food pyramid. You know, — eat 11 servings of whole grains, 9 servings of fruits and vegetable, 6 servings of diary and something like 2 servings of grass, oil and sweets. 
