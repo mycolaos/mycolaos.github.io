@@ -7,10 +7,6 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { getCollection } from 'astro:content';
-
-const lastBuildDate = new Date(); // This will be replaced at build time
-const getRandomSocial =  () => Math.random() < 0.33 ? 'Twitter' : Math.random() < 0.66 ? 'Blue Sky' : 'Threads';
-
 // Fetch and sort blog posts
 const allPosts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -55,9 +51,9 @@ const excerpt = latestPost.data.excerpt || '';
 				</h1>
 				<div class="ml-28">
 					<p>💡 Click a button</p>
-					<div class="w-80 grid grid-cols-3 [grid-template-areas:'a_b_c'] gap-1 text-[saddlebrown]">
-						<button id="target-a" class="col-span-1 [grid-area:a] rounded-lg border-[saddlebrown]">Target A</button>
-						<button id="target-b" class="col-span-1 [grid-area:b] rounded-lg border-[saddlebrown]">Target B</button>
+					<div class="w-80 grid grid-cols-3 [grid-template-areas:'a_b_c'] gap-1 text-[saddlebrown] text-sm text-center font-bold select-none">
+						<span tabindex="0" id="target-a" aria-role="fake-button" class="col-span-1 [grid-area:a] rounded-lg border-2 border-[saddlebrown] px-2 py-1 cursor-pointer">Target A</span>
+						<span tabindex="0" id="target-b" aria-role="fake-button" class="col-span-1 [grid-area:b] rounded-lg border-2 border-[saddlebrown] px-2 py-1 cursor-pointer">Target B</span>
 						<span explanation-for-devs="It holds area class name so Tailwind can generate it." class="[grid-area:c] -z-10"></span>
 					</div>
 				</div>
@@ -139,40 +135,8 @@ const excerpt = latestPost.data.excerpt || '';
 		avatar.classList.toggle('rotate');
 	});
 
-	// Relative build date calculation (client-side)
-	function getRelativeBuildDate(date) {
-		const now = new Date();
-		// Zero out time for accurate day comparison
-		const d1 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-		const d2 = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-		const diffMs = d1 - d2;
-		const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-		if (diffDays === 1) return 'yesterday';
-		if (diffDays >= 2 && diffDays <= 6) return `${diffDays} days ago`;
-		if (diffDays >= 7 && diffDays <= 27) {
-			const weeks = Math.round(diffDays / 7);
-			return `${weeks} week${weeks > 1 ? 's' : ''} ago`;
-		}
-		if (diffDays >= 28 && diffDays < 365) {
-			const months = Math.round(diffDays / 30);
-			return `${months} month${months > 1 ? 's' : ''} ago`;
-		}
-		if (diffDays >= 365 && diffDays < 730) return '1 year ago';
-		return 'today';
-	}
-
-	// Get the build date from the static time element
 	window.addEventListener('DOMContentLoaded', () => {
-		// The build date is rendered in the second time element
-		const timeEls = document.querySelectorAll('time.text-rose-500');
-		if (timeEls.length >= 2) {
-			const buildDateText = timeEls[1].textContent;
-			// Parse the build date string (format: 'Monday, 26 February')
-			// Add current year for parsing
-			const buildDate = new Date(`${buildDateText} ${new Date().getFullYear()}`);
-			const rel = getRelativeBuildDate(buildDate);
-			document.getElementById('relative-build-date').textContent = rel;
-		}
+		// # Make fun of guests.
 		// Button position shift on mouse down
 		const targetA = document.getElementById('target-a');
 		const targetB = document.getElementById('target-b');		
@@ -186,20 +150,29 @@ const excerpt = latestPost.data.excerpt || '';
 		const getButtonsGridEmptyArea = () => {
 			const targetAArea = targetA?.className.match(/grid-area:([abc])/)?.[1];
 			const targetBArea = targetB?.className.match(/grid-area:([abc])/)?.[1];
-			console.log('targetAArea', targetAArea);
-			console.log('targetBArea', targetBArea);
 			return areas.find(area => area !== targetAArea && area !== targetBArea);
 		};
 
+		targetA.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter') {
+				alert('You are a genius!');
+			}
+		});
+		
+		targetB.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter') {
+				alert('You are b genius!');
+			}
+		});
+		
+
 		targetA.addEventListener('mousedown', (e) => {
 			const emptyArea = getButtonsGridEmptyArea();
-			console.log('a', emptyArea);
 			targetA.className = targetA.className.replace(/grid-area:([abc])/, `grid-area:${emptyArea}`);
 		});
 
 		targetB.addEventListener('mousedown', (e) => {
 			const emptyArea = getButtonsGridEmptyArea();
-			console.log('b', emptyArea);
 			targetB.className = targetB.className.replace(/grid-area:([abc])/, `grid-area:${emptyArea}`);
 		});
 	});
