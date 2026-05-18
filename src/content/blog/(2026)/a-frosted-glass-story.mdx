@@ -179,7 +179,7 @@ determining the color is needed, it can be implemented by the user in their
 codebase. So I removed this functionality and left it to the user to decide when
 to apply which color.
 
-<div class="flex gap-1 py-2 w-full max-w-4xl items-stretch [&>span]:p-2">
+<div class="flex flex-wrap gap-2 py-2 w-full max-w-4xl items-stretch [&>span]:p-2">
   <span>Red<frosted-glass color-rgb="255,0,0"></frosted-glass></span>
   <span>Neon<frosted-glass color-rgb="57,255,20"></frosted-glass></span>
   <span>Purple<frosted-glass color-rgb="128,0,128"></frosted-glass></span>
@@ -232,7 +232,7 @@ opaque, and when it's 0 it's fully transparent.
 Opacity examples, 0.01 to 0.1 and 0.1 to 1:
 
 <div class="bg-indigo-600 p-2 rounded flex flex-wrap gap-1 py-2 w-full max-w-4xl text-center font-bold">
-  <div class="flex gap-1 py-2 w-full max-w-4xl [&>span]:p-2 [&>span]:flex-grow">
+  <div class="flex flex-wrap gap-1 py-2 w-full max-w-4xl [&>span]:p-2 [&>span]:flex-grow [&>span]:flex-1/6 sm:[&>span]:flex-auto">
     <span>0<frosted-glass opacity="0"></frosted-glass></span>
     <span>.01<frosted-glass opacity=".01"></frosted-glass></span>
     <span>.02<frosted-glass opacity=".02"></frosted-glass></span>
@@ -246,7 +246,7 @@ Opacity examples, 0.01 to 0.1 and 0.1 to 1:
     <span>.1<frosted-glass opacity=".1"></frosted-glass></span>
   </div>
 
-  <div class="flex gap-1 py-2 w-full max-w-4xl [&>span]:p-2 [&>span]:flex-grow">
+  <div class="flex flex-wrap gap-1 py-2 w-full max-w-4xl [&>span]:p-2 [&>span]:flex-grow [&>span]:flex-1/6 sm:[&>span]:flex-auto">
     <span>.1<frosted-glass opacity=".1"></frosted-glass></span>
     <span>.2<frosted-glass opacity=".2"></frosted-glass></span>
     <span>.3<frosted-glass opacity=".3"></frosted-glass></span>
@@ -284,21 +284,22 @@ tweak its options at will, it can serve different purposes. Use warm colors for
 a cozy and soft effect, or use it for a futuristic design with bright neon
 colors.
 
-
-<span class="px-3 py-2 rounded bg-white/80 text-blue-900">
-  <span>Arctic Blue</span>
-  <frosted-glass color-rgb="180,220,255" opacity="0.4"></frosted-glass>
-</span>
- 
-<span class="px-3 py-2 rounded bg-orange-200 text-orange-900">
-  <span>Autumn Leaf</span>
-  <frosted-glass color-rgb="255,120,40" opacity="0.25"></frosted-glass>
-</span>
- 
-<span class="px-3 py-2 rounded bg-black text-pink-400">
-  <span>Neon Magenta</span>
-  <frosted-glass color-rgb="255,0,255" opacity="0.25"></frosted-glass>
-</span>
+<div class="flex flex-wrap gap-2">
+  <span class="px-3 py-2 rounded bg-white/80 text-blue-900">
+    <span>Arctic Blue</span>
+    <frosted-glass color-rgb="180,220,255" opacity="0.4"></frosted-glass>
+  </span>
+  
+  <span class="px-3 py-2 rounded bg-orange-200 text-orange-900">
+    <span>Autumn Leaf</span>
+    <frosted-glass color-rgb="255,120,40" opacity="0.25"></frosted-glass>
+  </span>
+  
+  <span class="px-3 py-2 rounded bg-black text-pink-400">
+    <span>Neon Magenta</span>
+    <frosted-glass color-rgb="255,0,255" opacity="0.25"></frosted-glass>
+  </span>
+</div>
 
 And here's a more elaborate and dramatic example, where the frosted glass is
 used to create a dreamy and mystical atmosphere:
