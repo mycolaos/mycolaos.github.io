@@ -26,29 +26,42 @@ const excerpt = latestPost.data.excerpt || '';
 	</head>
 	<body>
 		<Header />
-		<div class="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto px-4 py-8">
+		<div class="flex flex-col md:flex-row gap-8 max-w-6xl mx-auto py-8">
 			<main class="flex-1 min-w-0">
-				<h1 class="text-5xl font-black mb-0">
-					<div class="inline-block relative mr-4 w-24 h-24">
-						<div id="avatar" class="transition-transform duration-2000 ease-in-out w-full h-full relative">
-							<Image class="inline-block w-24 h-24 rounded-full" alt="Mycolaos photoshot elaborated in Borderlands style" src={avatarImage} />
+				<div class="flex flex-nowrap items-center text-2xl sm:text-4xl lg:text-5xl font-black mb-0">
+					<!-- `container-type:inline-size` is used to correctly calculate `translateY` value for the segment lines. -->
+					<!-- Use css variable for avatar size. -->
+					<div class="shrink-0 inline-block relative mr-4 [container-type:inline-size] [--avatar-size:74px] sm:[--avatar-size:96px] w-[var(--avatar-size)] h-[var(--avatar-size)] ">
+						<div id="avatar" class="transition-transform duration-2000 ease-in-out w-full h-full relative select-none">
+							<Image class="inline-block w-[var(--avatar-size)] h-[var(--avatar-size)] rounded-full" alt="Mycolaos photoshot elaborated in Borderlands style" src={avatarImage} />
 								{Array.from({ length: 16 }).map((_, i) => (
 									<span
 										class="avatar-segment absolute block bg-black transform-3d"
 										style={{
-											width: '21px', // 2πr/16 ≈ 18.85 for r=48px
-											height: '3px',
-											left: 'calc(50% - 10.5px)',
-											top: 'calc(50% - 1.5px)',
-											transform: `rotate(${i * 22.5}deg) translateY(-48px)`,
+											// 2πr/16 ≈ 18.85 for r=48px (48px is an example). + 3px to cover empty space created by the angle.
+											width: 'calc(calc(calc(pi * 100%) / 16) + 3px)',
+											// Segment thickness.
+											height: '3px', 
+											// Position at half of the container.
+											left: '50%', 
+											top: '50%',
+											// 1. Translate to position centrally relative to the avatar.
+											// 2. Rotate segment to its angle.
+											// 3. After rotation, translateY away from center, 
+											// the Y has now an angle created by the previous rotation.
+											// Use `cqw` units for correct distance. 
+											// Can't use percentages because translate % is relative to the element itself, not to the parent.
+											transform: `translate(-50%, -50%) rotate(${i * 22.5}deg) translateY(-50cqw)`,
 											borderRadius: '2px',
 										}}
 									></span>
 								))}
 						</div>
 					</div>
-					Hello, Netwanderer!
-				</h1>
+					<div >
+						Hello, Netwanderer!
+					</div>
+				</div>
 				<div class="ml-28">
 					<p>💡 Click a button</p>
 					<div class="w-80 grid grid-cols-3 [grid-template-areas:'a_b_c'] gap-1 text-[saddlebrown] text-sm text-center font-bold select-none whitespace-nowrap">
@@ -59,10 +72,10 @@ const excerpt = latestPost.data.excerpt || '';
 				</div>
 			</main>
 			
-			<aside class="lg:w-80 pt-16 flex-shrink-0">
+			<aside class="md:w-80 pt-16 px-4 flex-shrink-0">
 				<div class="sticky top-8">
 					<!-- Latest Post -->
-					<div class="mb-6 px-3 py-6 border border-stone-300 rounded-lg bg-white/50 backdrop-blur-lg">
+					<div class="max-w-96 mb-6 px-3 py-6 border border-stone-300 rounded-lg bg-white/50 backdrop-blur-lg">
 						<a href={`/blog/${latestPost.id}/`} class="group block">
 							<h4 class="mt-0 mb-1 text-sm font-bold leading-tightgroup-hover:text-primary-dark">{latestPost.data.title}</h4>
 							<p class="m-0 text-xs text-muted-dark leading-relaxed italic font-serif">{excerpt}</p>
