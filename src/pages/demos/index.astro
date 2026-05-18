@@ -21,7 +21,7 @@ const posts = (await getCollection('demos')).sort(
 		<Header />
 		<main>
 			<section>
-				<ul class="list-none">
+				<ul class="list-none ml-0">
 					{
 						posts.map((post) => { 
 							const isFrosted = post.data.title.toLowerCase().includes('frosted');
