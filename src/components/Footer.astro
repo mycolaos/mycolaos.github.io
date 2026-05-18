@@ -49,9 +49,9 @@ const randomFooterOnInputText = getRandomItem(footerCopyrightOnInput);
 		<span class="group-hover:inline hidden">2014</span>
 	</span>
 
-	<div id="footer-fancy-input" contenteditable tabindex="0" placeholder="Your name here." 
+	<div id="footer-fancy-input" contenteditable tabindex="0" data-placeholder="Your name here." 
 	class={"relative inline-block font-bold text-primary-dark text-xl empty:min-w-40 w-fit text-right"+
-	"focus:before:hidden empty:before:content-[attr(placeholder)] before:absolute before:inset-0 before:pointer-events-none "+
+	"focus:before:hidden empty:before:content-[attr(data-placeholder)] before:absolute before:inset-0 before:pointer-events-none "+
 	"not-empty:after:content-['.'] "+
 	"[&>br]:hidden"}></div> 
 	<span id="footer-fancy-copyright" data-on-input-text={randomFooterOnInputText} data-landing-text={randomFooterLandingText}>{randomFooterLandingText}</span>.
