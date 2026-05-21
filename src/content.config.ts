@@ -1,7 +1,7 @@
-import { defineCollection, z } from 'astro:content';
-
+import { defineCollection, type SchemaContext } from 'astro:content';
 import { slug as githubSlug } from 'github-slugger';
 import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 
 interface GenerateIdOptions {
 	/** The path to the entry file, relative to the base directory. */
@@ -24,7 +24,7 @@ function generateRouteIdIgnoringGroups({ entry, base, data }: GenerateIdOptions)
 		.join('/');
 }
 
-const schema = ({ image }) =>
+const schema = ({ image }: SchemaContext) =>
 	z.object({
 		title: z.string(),
 		description: z.string(),
@@ -35,6 +35,38 @@ const schema = ({ image }) =>
 		heroImage: image().optional(),
 		redditUrl: z.string().url().optional(),
 	})
+
+const zDateRange = z.tuple([
+	z.coerce.date(),
+	z.coerce.date().optional()
+])
+
+const projectSchema = (context: SchemaContext) => schema(context).extend({
+	// My role in the development.
+	roles: z.array(z.enum(['Product', 'Engineering', 'Design', 'Research', 'Writing'])),
+	// Link to the project own domain, download url, store page or github url.
+	projectUrl: z.string().optional(),
+	// Working periods.
+	periodOfActiveDev: z.array(zDateRange),
+	/**
+	 * Notes for the status meanings:
+	 * 
+	 * live - is deployed and used.
+	 * prototype - validation.
+	 * experimental - what if I try this?
+	 * in development - is currently under development.
+	 * discontinued - direction abandoned.
+	 * stable - for github packages. 
+	 */
+	status: z.enum(['live', 'prototype', 'experimental', 'in development', 'discontinued', 'stable']),
+	/**
+	 * active - currently working on.
+	 * on hold - paused development or maintanance.
+	 * finished - I achieved what I wanted.
+	 * archived - not planning to work on in the near future.
+	 */
+	activity: z.enum(['active', 'on hold', 'finished', 'archived'])
+})
 
 const blog = defineCollection({
 	// Load Markdown and MDX files in the `src/content/blog/` directory.
@@ -50,4 +82,11 @@ const demos = defineCollection({
 	schema,
 });
 
-export const collections = { blog, demos };
+const projects = defineCollection({
+	// Load Markdown and MDX files in the `src/content/blog/` directory.
+	loader: glob({ base: './src/content/projects', pattern: '**/*.{md,mdx}', generateId: generateRouteIdIgnoringGroups }),
+	// Type-check frontmatter using a schema
+	schema: projectSchema,
+});
+
+export const collections = { blog, demos, projects };
