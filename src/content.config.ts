@@ -42,6 +42,8 @@ const zDateRange = z.tuple([
 ])
 
 const projectSchema = (context: SchemaContext) => schema(context).extend({
+	// Tech stack
+	techStack: z.array(z.string()),
 	// My role in the development.
 	roles: z.array(z.enum(['Product', 'Engineering', 'Design', 'Research', 'Writing'])),
 	// Link to the project own domain, download url, store page or github url.

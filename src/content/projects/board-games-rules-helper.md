@@ -15,6 +15,8 @@ periodOfActiveDev: [
   ['2024-10-13', '2024-10-24'], 
   ['2026-04-20', '2026-04-28']
 ]
+techStack: ['Next', 'MUI', 'Tailwind', 'Jotai', 'Supabase']
 tags: ["Board Games", "Rules", "Guide", "Companion", "Assistant"]
 ---
 
+<marquee>Details writing in progress</marquee>

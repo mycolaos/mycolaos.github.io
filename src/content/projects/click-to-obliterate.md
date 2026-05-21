@@ -9,6 +9,8 @@ prjectUrl: "https://chromewebstore.google.com/detail/click-to-obliterate/pnphlli
 
 roles: ['Product', 'Engineering', 'Design']
 periodOfActiveDev: [['2025-01-12', '2025-02-20'], ['2025-11-01', '2025-11-18']]
+techStack: ['Javascript', 'Copilot']
 tags: ["JavaScript", "UI",  "Web Extensions", "Effects", "Vibe Coding"]
 ---
 
+<marquee>Details writing in progress</marquee>
