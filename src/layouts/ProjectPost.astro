@@ -8,7 +8,23 @@ import BaseHead from '../components/BaseHead.astro';
 
 type Props = CollectionEntry<'projects'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage, redditUrl } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, redditUrl,
+	periodOfActiveDev, activity, status, roles, techStack, projectUrl
+ } = Astro.props;
+
+const STATUS_CLASSES = {
+	live: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+	stable: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+	'in development': 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+	prototype: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+	experimental: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20',
+	discontinued: 'bg-rose-500/10 text-rose-400 border-rose-500/20',
+	active: 'bg-teal-500/10 text-teal-400 border-teal-500/20',
+	finished: 'bg-slate-500/10 text-slate-400 border-slate-500/20',
+	'on hold': 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
+	archived: 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20'
+}
+
 ---
 
 <html lang="en">
@@ -25,19 +41,57 @@ const { title, description, pubDate, updatedDate, heroImage, redditUrl } = Astro
 				</div>
 				<div>
 					<div>
-						<div>
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
-						</div>
 						<h1>{title}</h1>
 						<hr />
 					</div>
+					<section class="mb-8">
+						{description}
+						<span class={"inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border backdrop-blur-sm " + STATUS_CLASSES[status]}>{status}</span>
+						<div>
+							{
+								projectUrl
+								? <a href={projectUrl} target="_blank" class="flex gap-2 items-baseline">
+										<span class="text-nowrap overflow-ellipsis overflow-hidden">{projectUrl}</span>
+										<svg class="text-inherit" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
+											<path d="M0 0h48v48H0z" fill="none" />
+											<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M32.646 24.251L22.63 34.27l-8.898-8.898L23.75 15.354m8.898 8.897l3.235 3.235H42.5V5.5H20.516v6.619l3.234 3.234m8.235 9.562V42.5H5.5V16.017h17.588" />
+										</svg>
+									</a>
+								: <span>No link, just a story</span>
+							}
+						</div>
+						<div class="mt-4 text-gray-600 text-sm flex flex-col gap-2">
+							<div>Roles
+								<div class="ml-5">{roles.map(role => <span class="mr-2">{role}</span>)}</div></div>
+							<div>Tech stack
+								<div class="ml-5">
+									{techStack.map(tech => 
+										<span class="mr-2">{tech}</span>
+									)}
+								</div>
+							</div>
+							<div>
+								<span>
+									<span>Active development</span>
+									<span class={"inline-flex items-center px-2.5 py-0.5 text-xs font-medium " + STATUS_CLASSES[activity]}>{activity}</span>
+								</span>
+								<ul class="list-disc">
+									{periodOfActiveDev.map((period) => 
+										<li class="flex gap-2">
+											<span>{period[0]}</span>
+											<span>
+												<span>{period[1].toLocaleDateString('en-US', { dateStyle: 'medium' }) }</span>
+												<span>&nbsp;-&nbsp;</span>
+												<span>{period[2].toLocaleDateString('en-US', { dateStyle: 'medium' })}</span>
+											</span>
+										</li>
+										)}
+								</ul>
+							</div>
+							<div>
+						</div>
+						</div>
+					</section>
 					<slot />
 					<aside>
 						{  redditUrl &&

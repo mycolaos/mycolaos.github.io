@@ -7,7 +7,7 @@ status: "discontinued"
 activity: "archived"
 
 roles: ['Product', 'Engineering', 'Design', 'Research']
-periodOfActiveDev: [['2019-12-15', '2022-02-21']]
+periodOfActiveDev: [['Full project development.', '2019-12-15', '2022-02-21']]
 techStack: ['Next', 'MUI', 'Sass', 'Formik', 'Unstated-next', 'Axios', 'Swr', 'Loopback', 'Docker']
 tags: ["Loopback", "Javascript", "Fullstack", "Contacts", "Links in bio", "Creators"]
 ---

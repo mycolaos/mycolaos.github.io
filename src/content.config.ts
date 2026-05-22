@@ -37,8 +37,12 @@ const schema = ({ image }: SchemaContext) =>
 	})
 
 const zDateRange = z.tuple([
+	// Description of working period/
+	z.string(),
+	// Starting date.
 	z.coerce.date(),
-	z.coerce.date().optional()
+	// End date.
+	z.coerce.date()
 ])
 
 const projectSchema = (context: SchemaContext) => schema(context).extend({

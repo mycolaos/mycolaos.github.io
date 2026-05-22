@@ -8,7 +8,7 @@ activity: "finished"
 projectUrl: "https://aarrr.mycolaos.com"
 
 roles: ['Product', 'Engineering', 'Design', 'Research']
-periodOfActiveDev: [['2026-04-06', '2026-04-11']]
+periodOfActiveDev: [['Ideation and development', '2026-04-06', '2026-04-11']]
 techStack: ['Typescript', 'React', 'Tailwind', 'Vite', 'Windsurf']
 tags: ["Demo", "POC", "Learning", "Marketing", "Growth", "UI", "Pirate Metrics", "AARRR"]
 ---
