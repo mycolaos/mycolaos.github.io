@@ -1,7 +1,7 @@
 ---
 pubDate: 2026-05-21
 title: "Frosted Glass"
-description: ""
+description: "A Web Component to create a frosted glass effect."
 
 status: "stable"
 activity: "finished"

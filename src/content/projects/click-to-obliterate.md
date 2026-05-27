@@ -1,7 +1,7 @@
 ---
 pubDate: 2026-05-21
 title: "Click to Obliterate"
-description: ""
+description: "A web extension to get rid off annoying web elements in a fun way."
 
 status: "live"
 activity: "finished"

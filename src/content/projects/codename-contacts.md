@@ -1,7 +1,7 @@
 ---
 pubDate: 2026-05-21
 title: "Codename: Contacts"
-description: ""
+description: "A platform for one page links with details and embadables."
 
 status: "discontinued"
 activity: "archived"

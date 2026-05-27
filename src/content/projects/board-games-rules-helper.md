@@ -1,7 +1,7 @@
 ---
 pubDate: 2026-05-21
 title: "Board Games Rules Helper"
-description: ""
+description: "A companion webapp that acts both as a guide for new players and as reference to more experienced ones."
 
 status: "live"
 activity: "on hold"

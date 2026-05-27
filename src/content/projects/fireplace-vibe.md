@@ -1,7 +1,7 @@
 ---
 pubDate: 2026-05-21
 title: "Fireplace Vibe 🔥"
-description: ""
+description: "Vibejam game 100% vibe coded without proper engineering."
 
 status: "experimental"
 activity: "on hold"
