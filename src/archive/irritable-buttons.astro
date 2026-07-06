@@ -1,0 +1,56 @@
+---
+---
+
+
+<div class="ml-28">
+  <p>💡 Click a button</p>
+  <div class="w-80 grid grid-cols-3 [grid-template-areas:'a_b_c'] gap-1 text-[saddlebrown] text-sm text-center font-bold select-none whitespace-nowrap">
+    <span tabindex="0" id="target-a" aria-role="fake-button" class="col-span-1 [grid-area:a] rounded-lg border-2 border-[saddlebrown] px-2 py-1 cursor-pointer">What is this?</span>
+    <span tabindex="0" id="target-b" aria-role="fake-button" class="col-span-1 [grid-area:b] rounded-lg border-2 border-[saddlebrown] px-2 py-1 cursor-pointer">Explore</span>
+    <span explanation-for-devs="It holds area class name so Tailwind can generate it." class="[grid-area:c] -z-10"></span>
+  </div>
+</div>
+
+<script>
+	window.addEventListener('DOMContentLoaded', () => {
+		// # Make fun of guests.
+		// Button position shift on mouse down
+		const targetA = document.getElementById('target-a');
+		const targetB = document.getElementById('target-b');		
+		
+		if (!targetA || !targetB) {
+			console.error('Target buttons not found');
+			return;
+		}
+		
+		const areas = ['a', 'b', 'c']
+		const getButtonsGridEmptyArea = () => {
+			const targetAArea = targetA?.className.match(/grid-area:([abc])/)?.[1];
+			const targetBArea = targetB?.className.match(/grid-area:([abc])/)?.[1];
+			return areas.find(area => area !== targetAArea && area !== targetBArea);
+		};
+
+		targetA.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter') {
+				alert('You are a genius!');
+			}
+		});
+		
+		targetB.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter') {
+				alert('You are b genius!');
+			}
+		});
+		
+
+		targetA.addEventListener('mousedown', (e) => {
+			const emptyArea = getButtonsGridEmptyArea();
+			targetA.className = targetA.className.replace(/grid-area:([abc])/, `grid-area:${emptyArea}`);
+		});
+
+		targetB.addEventListener('mousedown', (e) => {
+			const emptyArea = getButtonsGridEmptyArea();
+			targetB.className = targetB.className.replace(/grid-area:([abc])/, `grid-area:${emptyArea}`);
+		});
+	});
+</script>
