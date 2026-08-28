@@ -6,14 +6,15 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts'; 
 import BaseHead from '../../components/BaseHead.astro';
+import CoreHtml from '../../layouts/CoreHtml.astro';
 
 const posts = (await getCollection('projects')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 ---
 
-<!doctype html>
-<html lang="en">
+
+<CoreHtml>
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
@@ -46,7 +47,7 @@ const posts = (await getCollection('projects')).sort(
 		</main>
 		<Footer />
 	</body>
-</html>
+</CoreHtml>
 
 <script>
 	import '@mycolaos/frosted-glass';

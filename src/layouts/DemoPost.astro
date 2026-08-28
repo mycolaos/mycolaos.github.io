@@ -5,13 +5,14 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import BaseHeadDemo from '../components/BaseHeadDemo.astro';
+import CoreHtml from './CoreHtml.astro';
 
 type Props = CollectionEntry<'demos'>['data'];
 
 const { title, description, pubDate, updatedDate, heroImage, redditUrl } = Astro.props;
 ---
 
-<html lang="en">
+<CoreHtml>
 	<head>
 		<BaseHeadDemo title={title} description={description} /> 
 	</head>
@@ -53,4 +54,4 @@ const { title, description, pubDate, updatedDate, heroImage, redditUrl } = Astro
 		</main>
 		<Footer />
 	</body>
-</html>
+</CoreHtml>

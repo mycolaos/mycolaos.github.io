@@ -7,6 +7,7 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { getCollection } from 'astro:content';
+import CoreHtml from '../layouts/CoreHtml.astro';
 // Fetch and sort blog posts
 const allPosts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -19,8 +20,8 @@ const recentPosts = allPosts.slice(1, 4);
 const excerpt = latestPost.data.excerpt || '';
 ---
 
-<!doctype html>
-<html lang="en">
+
+<CoreHtml>
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
@@ -100,7 +101,7 @@ const excerpt = latestPost.data.excerpt || '';
 		
 		<Footer />
 	</body>
-</html>
+</CoreHtml>
 <style>
 
 #avatar {
