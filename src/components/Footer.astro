@@ -43,19 +43,8 @@ const randomFooterOnInputText = getRandomItem(footerCopyrightOnInput);
 
 ---
 
-<footer class="sticky top-full pt-8 px-4 pb-24 text-muted text-center">
-	<span class="group">(c) 
-		<span class="group-hover:hidden inline">{today.getFullYear()}</span>
-		<span class="group-hover:inline hidden">2014</span>
-	</span>
-
-	<div id="footer-fancy-input" contenteditable tabindex="0" data-placeholder="Your name here." 
-	class={"relative inline-block font-bold text-primary-dark text-xl empty:min-w-40 w-fit text-right"+
-	"focus:before:hidden empty:before:content-[attr(data-placeholder)] before:absolute before:inset-0 before:pointer-events-none "+
-	"not-empty:after:content-['.'] "+
-	"[&>br]:hidden"}></div> 
-	<span id="footer-fancy-copyright" data-on-input-text={randomFooterOnInputText} data-landing-text={randomFooterLandingText}>{randomFooterLandingText}</span>.
-	<div id="social-links" class="flex justify-center gap-4 mt-12 text-muted [&>a]:text-inherit *:hover:text-primary *:hover:stroke-2">
+<footer class="sticky top-full pt-8 px-4 pb-24 text-center">
+	<div id="social-links" class="flex justify-center gap-4 mb-24 text-muted-light [&>a]:text-inherit *:hover:text-primary *:hover:stroke-2">
 		<a href="https://bsky.app/profile/mycolaos.bsky.social" target="_blank">
 			<span class="sr-only">Follow Mycolaos on Blue Sky</span>
 			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 48 48"><!-- Icon from Arcticons by Donnnno - https://creativecommons.org/licenses/by-sa/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M24 32.19c0-.196.075.025.237.5c.874 2.577 4.289 12.631 12.096 4.593c4.111-4.232 2.208-8.463-5.275-9.741c4.28.73 9.094-.477 10.414-5.212c.38-1.362 1.028-9.752 1.028-10.885c0-5.676-4.96-3.892-8.02-1.587c-4.242 3.195-8.805 9.673-10.48 13.15c-1.675-3.477-6.238-9.954-10.48-13.15C10.46 7.553 5.5 5.77 5.5 11.445c0 1.133.647 9.523 1.028 10.885c1.32 4.735 6.133 5.943 10.414 5.212c-7.483 1.278-9.386 5.51-5.275 9.741c7.807 8.038 11.222-2.016 12.096-4.592c.162-.476.237-.697.237-.501"/></svg>
@@ -71,6 +60,21 @@ const randomFooterOnInputText = getRandomItem(footerCopyrightOnInput);
 		<a href="https://threads.net/@mycolaos" target="_blank">
 			<span class="sr-only">Follow Mycolaos on Threads</span>
 			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 48 48"><!-- Icon from Arcticons by Donnnno - https://creativecommons.org/licenses/by-sa/4.0/ --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M17.95 16.332c2.077-2.076 3.948-2.943 6.732-2.943s9.128.98 8.245 11.085c-.883 10.104-7.138 9.777-8.245 9.777c-4.115 0-7.385-1.667-7.385-5.853c0-5.752 6.638-6.05 8.861-6.05c5.428 0 14.42 1.652 14.42 10.726c0 11.053-12.98 12.426-16.349 12.426c-8.11 0-18.639-4.12-18.639-22.203S19.184 2.5 24.682 2.5s13.264.801 17.728 12.818"/></svg>
+		</a>
+	</div>
+
+	<div class="text-md font-light text-muted-light">
+		<span class="group">(c) 
+			<span class="group-hover:hidden inline">{today.getFullYear()}</span>
+			<span class="group-hover:inline hidden">2014</span>
+		</span>
+
+		<div id="footer-fancy-input" contenteditable tabindex="0" data-placeholder="Your name here." 
+		class={"relative inline-block font-normal hover:text-primary  empty:min-w-40 w-fit text-right"+
+		"focus:before:hidden empty:before:content-[attr(data-placeholder)] before:absolute before:inset-0 before:pointer-events-none "+
+		"not-empty:after:content-['.'] "+
+		"[&>br]:hidden"}></div> 
+		<span id="footer-fancy-copyright" data-on-input-text={randomFooterOnInputText} data-landing-text={randomFooterLandingText}>{randomFooterLandingText}</span>
 	</div>
 </footer>
 <script>

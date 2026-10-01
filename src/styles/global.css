@@ -14,7 +14,8 @@
 	--color-muted-light: var(--color-stone-400);
 	--color-muted-dark: var(--color-stone-600);
 	--default-mb-content: 1.5rem;
-  --font-mono: "Source Code Pro", monospace; 
+  --font-mono: "Source Code Pro", monospace;
+	--font-display: 'Comfortaa';
 }
 
 @layer base {
