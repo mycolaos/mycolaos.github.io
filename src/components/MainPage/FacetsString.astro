@@ -1,0 +1,21 @@
+<ul id="facets-list" aria-live="polite" aria-atomic="true" class="list-none inline m-0 [&_li]:text-[1em] [&_li]:hidden [&>[aria-current=true]]:inline cursor-pointer text-primary">
+  <li aria-current="true">a Frontend Engineer</li>
+  <li>a little bit Fullstack</li>
+  <li>I love design, but I'm not a designer</li>
+  <li>I prefer owning a project, but love cooperating</li>
+  <li>an amateur BBJ practioner</li>
+  <li>I like working out outside</li>
+</ul>
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const facetsList = document.getElementById('facets-list');
+
+    facetsList?.addEventListener('click', () =>{
+      console.log('click')
+      const current = facetsList.querySelector('[aria-current=true]');
+      const next = current?.nextElementSibling || facetsList.firstElementChild;
+      current?.removeAttribute('aria-current');
+      next?.setAttribute('aria-current', 'true')
+    })
+  });
+</script>

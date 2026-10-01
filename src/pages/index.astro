@@ -8,6 +8,7 @@ import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { getCollection } from 'astro:content';
 import CoreHtml from '../layouts/CoreHtml.astro';
+import FacetsString from '../components/MainPage/FacetsString.astro';
 // Fetch and sort blog posts
 const allPosts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -28,11 +29,12 @@ const excerpt = latestPost.data.excerpt || '';
 	<body>
 		<Header />
 		<div class="flex flex-col md:flex-row gap-8 max-w-6xl mx-auto py-8">
-			<main class="flex-1 min-w-0">
-				<div class="flex flex-nowrap items-center text-2xl sm:text-4xl lg:text-5xl font-black mb-0">
+			<main class="flex-1 min-w-0 [font-family:'Comfortaa'] text-[.9em]">
+				<!-- ! Avatar hidden until I decide whether to use it and how. -->
+				<div class="hidden flex flex-nowrap items-center mb-0">
 					<!-- `container-type:inline-size` is used to correctly calculate `translateY` value for the segment lines. -->
 					<!-- Use css variable for avatar size. -->
-					<div class="shrink-0 inline-block relative mr-4 [container-type:inline-size] [--avatar-size:74px] sm:[--avatar-size:96px] w-[var(--avatar-size)] h-[var(--avatar-size)] ">
+					<div class="shrink-0 inline-block relative mr-4 [container-type:inline-size] [--avatar-size:64px] sm:[--avatar-size:84px] w-[var(--avatar-size)] h-[var(--avatar-size)] ">
 						<div id="avatar" class="transition-transform duration-2000 ease-in-out w-full h-full relative select-none">
 							<Image class="inline-block w-[var(--avatar-size)] h-[var(--avatar-size)] rounded-full" alt="Mycolaos photoshot elaborated in Borderlands style" src={avatarImage} />
 								{Array.from({ length: 16 }).map((_, i) => (
@@ -59,14 +61,13 @@ const excerpt = latestPost.data.excerpt || '';
 								))}
 						</div>
 					</div>
-					<div >
-						Hello, Netwanderer!
-					</div>
+				</div>
+				<div class="">
+					<p class="inline">I'm <span >Mycolaos</span>, <FacetsString /></p>
 				</div>
 				<p>
-					Welcome to my little digital corner! I'm a Frontend Engineer that loves to build products and creative experiments. Sometimes, I write blog posts.
+					It's my little digital corner. Sometimes I write, or build an experiment or a bigger project.
 				</p>
-				<p>You can read some of my blogs or have a look on one of my highlighted projects. Details are WIP, but if you want to know more about them, feel free to ping me on any of the socials you find in the footer of this website.</p>
 			</main>
 			
 			<aside class="md:w-80 pt-16 px-4 flex-shrink-0">

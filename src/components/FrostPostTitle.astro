@@ -2,7 +2,8 @@
 <script> 
   import '@mycolaos/frosted-glass';
 
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('astro:page-load', () => {
+    console.log('dom loaded')
     const getRandomRGB = () => Math.floor(Math.random() * 256);
     const randomColor = `${getRandomRGB()}, ${getRandomRGB()}, ${getRandomRGB()}`;
     const opacity = Math.random().toFixed(2);
