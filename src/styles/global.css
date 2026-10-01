@@ -17,6 +17,10 @@
 }
 
 @layer base {
+	html {
+		scrollbar-gutter: stable both-edges;
+	}
+
 	body {
 		color: light-dark(var(--color-text-on-white), var(--color-text-on-dark));
 		min-height: 100vh;
