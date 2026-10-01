@@ -34,10 +34,15 @@ const posts = (await getCollection('projects')).sort(
 									{post.data.heroImage && (
 										<Image width={720} height={360} src={post.data.heroImage} alt="" />
 									)}
-									<h4 class="m-0 text-base font-bold leading-none">{post.data.title}</h4>
-									<p class="m-0 text-muted group-hover:text-inherit text-xs">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
+									<h4 class="m-0 mb-2 text-base font-bold leading-none">{post.data.title}</h4>
+											{post.data.periodOfActiveDev ?  
+										<p class="@container font-mono m-0 text-muted group-hover:text-inherit text-xs">
+											<span>{post.data.periodOfActiveDev.at(0)?.[1].toLocaleDateString('en-US', { dateStyle: 'medium' }) }</span>
+											<span class="@max-[10rem]:hidden">-</span>
+											<br class="@max-[10rem]:inline hidden" />
+											<span>{post.data.periodOfActiveDev.at(-1)?.[2].toLocaleDateString('en-US', { dateStyle: 'medium' })}</span>
+										</p>: null
+											}
 								</a>
 							</li>
 						)})
