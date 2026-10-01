@@ -14,11 +14,14 @@ const allPosts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
-const latestPost = allPosts[0];
-const recentPosts = allPosts.slice(1, 4);
+// Fetch and sort blog posts
+const allProjects = (await getCollection('projects')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
 
-// Use the description from the post's frontmatter
-const excerpt = latestPost.data.excerpt || '';
+const recentProjects = allProjects.slice(0, 4);
+ 
+const recentPosts = allPosts.slice(0, 4); 
 ---
 
 
@@ -28,77 +31,86 @@ const excerpt = latestPost.data.excerpt || '';
 	</head>
 	<body>
 		<Header />
-		<div class="flex flex-col md:flex-row gap-8 max-w-6xl mx-auto py-8">
-			<main class="flex-1 min-w-0 [font-family:'Comfortaa'] text-[.9em]">
-				<!-- ! Avatar hidden until I decide whether to use it and how. -->
-				<div class="hidden flex flex-nowrap items-center mb-0">
-					<!-- `container-type:inline-size` is used to correctly calculate `translateY` value for the segment lines. -->
-					<!-- Use css variable for avatar size. -->
-					<div class="shrink-0 inline-block relative mr-4 [container-type:inline-size] [--avatar-size:64px] sm:[--avatar-size:84px] w-[var(--avatar-size)] h-[var(--avatar-size)] ">
-						<div id="avatar" class="transition-transform duration-2000 ease-in-out w-full h-full relative select-none">
-							<Image class="inline-block w-[var(--avatar-size)] h-[var(--avatar-size)] rounded-full" alt="Mycolaos photoshot elaborated in Borderlands style" src={avatarImage} />
-								{Array.from({ length: 16 }).map((_, i) => (
-									<span
-										class="avatar-segment absolute block bg-black transform-3d"
-										style={{
-											// 2πr/16 ≈ 18.85 for r=48px (48px is an example). + 3px to cover empty space created by the angle.
-											width: 'calc(calc(calc(pi * 100%) / 16) + 3px)',
-											// Segment thickness.
-											height: '3px', 
-											// Position at half of the container.
-											left: '50%', 
-											top: '50%',
-											// 1. Translate to position centrally relative to the avatar.
-											// 2. Rotate segment to its angle.
-											// 3. After rotation, translateY away from center, 
-											// the Y has now an angle created by the previous rotation.
-											// Use `cqw` units for correct distance. 
-											// Can't use percentages because translate % is relative to the element itself, not to the parent.
-											transform: `translate(-50%, -50%) rotate(${i * 22.5}deg) translateY(-50cqw)`,
-											borderRadius: '2px',
-										}}
-									></span>
-								))}
+		<main>
+			<div class="flex flex-col gap-36 mt-36">
+				<div class="flex-1 min-w-0 [font-family:'Comfortaa'] text-[.9em]">
+					<!-- ! Avatar hidden until I decide whether to use it and how. -->
+					<div class="hidden flex flex-nowrap items-center mb-0">
+						<!-- `container-type:inline-size` is used to correctly calculate `translateY` value for the segment lines. -->
+						<!-- Use css variable for avatar size. -->
+						<div class="shrink-0 inline-block relative mr-4 [container-type:inline-size] [--avatar-size:64px] sm:[--avatar-size:84px] w-[var(--avatar-size)] h-[var(--avatar-size)] ">
+							<div id="avatar" class="transition-transform duration-2000 ease-in-out w-full h-full relative select-none">
+								<Image class="inline-block w-[var(--avatar-size)] h-[var(--avatar-size)] rounded-full" alt="Mycolaos photoshot elaborated in Borderlands style" src={avatarImage} />
+									{Array.from({ length: 16 }).map((_, i) => (
+										<span
+											class="avatar-segment absolute block bg-black transform-3d"
+											style={{
+												// 2πr/16 ≈ 18.85 for r=48px (48px is an example). + 3px to cover empty space created by the angle.
+												width: 'calc(calc(calc(pi * 100%) / 16) + 3px)',
+												// Segment thickness.
+												height: '3px', 
+												// Position at half of the container.
+												left: '50%', 
+												top: '50%',
+												// 1. Translate to position centrally relative to the avatar.
+												// 2. Rotate segment to its angle.
+												// 3. After rotation, translateY away from center, 
+												// the Y has now an angle created by the previous rotation.
+												// Use `cqw` units for correct distance. 
+												// Can't use percentages because translate % is relative to the element itself, not to the parent.
+												transform: `translate(-50%, -50%) rotate(${i * 22.5}deg) translateY(-50cqw)`,
+												borderRadius: '2px',
+											}}
+										></span>
+									))}
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="">
-					<p class="inline">I'm <span >Mycolaos</span>, <FacetsString /></p>
-				</div>
-				<p>
-					It's my little digital corner. Sometimes I write, or build an experiment or a bigger project.
-				</p>
-			</main>
-			
-			<aside class="md:w-80 pt-16 px-4 flex-shrink-0">
-				<div class="sticky top-8">
-					<!-- Latest Post -->
-					<div class="max-w-96 mb-6 px-3 py-6 border border-stone-300 rounded-lg bg-white/50 backdrop-blur-lg">
-						<a href={`/blog/${latestPost.id}/`} class="group block">
-							<h4 class="mt-0 mb-1 text-sm font-bold leading-tightgroup-hover:text-primary-dark">{latestPost.data.title}</h4>
-							<p class="m-0 text-xs text-muted-dark leading-relaxed italic font-serif">{excerpt}</p>
-						</a>
+					<div class="">
+						<p class="inline">I'm <span >Mycolaos</span>, <FacetsString /></p>
 					</div>
-
-					<!-- Explore -->
+					<p>
+						It's my little digital corner. Sometimes I write, or build an experiment or a bigger project.
+					</p>
+				</div>
+				
+				<aside class="flex flex-col gap-8">
+					<!-- Projects -->
 					<div>
-						<h3 class="text-sm m-0 font-bold">Explore</h3>
+						<h3 class="text-sm m-0 font-bold mb-2">Projects</h3>
 						<ul class="space-y-0 list-none m-0">
-							{recentPosts.map((post) => (
-								<li>
-									<a href={`/blog/${post.id}/`}>
-										<h4 class="mt-1 mb-2 text-xs leading-tight hover:text-primary-dark">{post.data.title}</h4>
+							{recentProjects.map((project) => (
+								<li class="mb-2 last:mb-0">
+									<a href={`/projects/${project.id}/`}>
+										<h4 class="m-0 text-xs leading-tight hover:text-primary-dark">{project.data.title}</h4>
 									</a>
 								</li>
 							))}
 						</ul>
-						<a href="/blog/" class="inline-block text-xs font-bold hover:text-primary-dark border-b-2 border-primary hover:border-primary-dark">
-							More posts →
+						<a href="/projects/" class="inline-block text-xs font-bold hover:text-primary-dark">
+							More →
 						</a>
-					</div>
-				</div>
-			</aside>
-		</div>
+					</div> 
+
+					<!-- Writings -->
+					<div>
+						<h3 class="text-sm m-0 font-bold mb-2">Writings</h3>
+						<ul class="space-y-0 list-none m-0">
+							{recentPosts.map((post) => (
+								<li class="mb-2 last:mb-0">
+									<a href={`/blog/${post.id}/`}>
+										<h4 class="m-0 text-xs leading-tight hover:text-primary-dark">{post.data.title}</h4>
+									</a>
+								</li>
+							))}
+						</ul>
+						<a href="/blog/" class="inline-block text-xs font-bold hover:text-primary-dark">
+							More →
+						</a>
+					</div> 
+				</aside>
+			</div>
+		</main>
 		
 		<Footer />
 	</body>
