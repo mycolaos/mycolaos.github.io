@@ -69,12 +69,17 @@ const randomFooterOnInputText = getRandomItem(footerCopyrightOnInput);
 			<span class="group-hover:inline hidden">2014</span>
 		</span>
 
-		<div id="footer-fancy-input" contenteditable tabindex="0" data-placeholder="Your name here." 
-		class={"relative inline-block font-normal hover:text-primary  empty:min-w-40 w-fit text-right"+
-		"focus:before:hidden empty:before:content-[attr(data-placeholder)] before:absolute before:inset-0 before:pointer-events-none "+
-		"not-empty:after:content-['.'] "+
-		"[&>br]:hidden"}></div> 
-		<span id="footer-fancy-copyright" data-on-input-text={randomFooterOnInputText} data-landing-text={randomFooterLandingText}>{randomFooterLandingText}</span>
+		<div id="footer-fancy-input" contenteditable tabindex="0" data-placeholder="Your name here."
+			spellcheck="false" autocorrect="off" autocomplete="off" autocapitalize="off"
+			class={"relative inline-block font-normal outline-primary hover:text-primary w-fit px-1 text-right" +
+			"focus:before:hidden focus:empty:before:font-light " + 
+			"empty:min-w-[160px] " + 
+			"empty:before:opacity-100 empty:before:content-[attr(data-placeholder)] " + 
+			"before:opacity-0 before:transition-opacity before:delay-500 before:duration-300 " +
+			"before:absolute before:inset-0 before:pointer-events-none " + 
+			"not-empty:after:content-['.'] " +
+			"[&>br]:hidden"}></div>
+		<span id="footer-fancy-copyright" class="inline-block w-fit" data-on-input-text={randomFooterOnInputText} data-landing-text={randomFooterLandingText}>{randomFooterLandingText}</span>
 	</div>
 </footer>
 <script>
@@ -85,7 +90,7 @@ const randomFooterOnInputText = getRandomItem(footerCopyrightOnInput);
 			console.error('Footer fancy copyright element not found');
 		}
 
-	function typewriterEffect(element, text, speed = 75) {
+	function typewriterEffect(element, text, endCallback, speed = 75) {
 		element.textContent = '_';
 		let i = 0;
 		function type() {
@@ -94,24 +99,77 @@ const randomFooterOnInputText = getRandomItem(footerCopyrightOnInput);
 				element.textContent = nextPart  +  (i < text.length - 1 ? '_' : '');
 				i++;
 				setTimeout(type, speed);
+			} else {
+				endCallback?.();
 			}
 		}
 		type();
 	}
 
-	if(footerFancyCopyright) {
-		footerFancyInput?.addEventListener('blur', (event) => {
+	if(footerFancyCopyright && footerFancyInput) {
+		// 1. Text can grow and expand width instantly.
+		// 2. If text is reduced:
+		// - A. wait for the typewriter effect to finish - then transition to fit shorter text.
+		// - B. if typewriter is not triggered (e.g. chaning previously typed name) - transition on blur. Should not transition if typewriter effect is going on.
+		// 3. If input is empty - grow only if the last text was smaller.
+		// 4. Default empty placeholder styles, such as opacity transition, are defined directly in class tailwind declarations. The timing must be in sync with empty input resizing.
+
+		const fitElements = () => {
+			// Smoothly resize elements.
+			const transition = 'min-width: 0; transition: min-width 1.5s ease;'
+			// Resize fancy input only if it's not empty.
+			if (footerFancyInput.textContent) {
+				footerFancyInput.style.cssText = transition;
+			}
+			footerFancyCopyright.style.cssText = transition;
+			
+		}
+		const maybeGrowEmptyInput = () => {
+			// Fit to show placeholder text if empty.
+			if (footerFancyInput.textContent === '' && parseFloat(getComputedStyle(footerFancyInput).width) < 160) {
+				// Transition timing must be in sync with placeholder text opacity transition.
+				footerFancyInput.style.cssText = 'min-width: 160px; transition: min-width .5s ease;';
+			}
+		}
+		const resetTransitionState = () => {
+			footerFancyInput.style.cssText = '';
+			footerFancyCopyright.style.cssText = '';
+			// Set minWidth so it can be transitioned later if applicable.
+			footerFancyInput.style.minWidth = getComputedStyle(footerFancyInput).width;
+			footerFancyCopyright.style.minWidth = getComputedStyle(footerFancyCopyright).width;
+		}
+
+		// As input gets focused, reset values to enable further transition later.
+		footerFancyInput.addEventListener('focus', (event) => {
+			resetTransitionState();
+		})
+
+		// If input gets empty we need to make sure its size is big enough to show placeholder text.
+		footerFancyInput.addEventListener('input', (event) => {
+			maybeGrowEmptyInput();
+		});
+
+		const typewriterEnd = () => {
+			// All effects have ran, resize elements.
+			fitElements();
+		}
+
+		footerFancyInput.addEventListener('blur', (event) => {
 			footerFancyInput.textContent = footerFancyInput.textContent?.trim() || '';
 
 			if (footerFancyInput.textContent) {
 				// Trigger effect only if the current copyright text is different.
 				if (footerFancyCopyright.textContent !== footerFancyCopyright.dataset.onInputText) {
-					typewriterEffect(footerFancyCopyright, footerFancyCopyright.dataset.onInputText || 'No text found, contact admin.');
+					typewriterEffect(footerFancyCopyright, footerFancyCopyright.dataset.onInputText || 'No text found, contact admin.', typewriterEnd);
+				} else {
+					// Typewriter effect doesn't run because its state is not changed, 
+					// but fancy input might've changed, so we adjust the sizes.
+					fitElements();
 				}
 			} else {
 				// Trigger effect only if the current copyright text is different.
 				if (footerFancyCopyright.textContent !== footerFancyCopyright.dataset.landingText) {
-					typewriterEffect(footerFancyCopyright, footerFancyCopyright.dataset.landingText || 'No text found, contact admin.');
+					typewriterEffect(footerFancyCopyright, footerFancyCopyright.dataset.landingText || 'No text found, contact admin.', typewriterEnd);
 					}
 				}
 		});
