@@ -47,7 +47,9 @@ const STATUS_CLASSES = {
 					</div>
 					<section class="mb-8">
 						{description}
-						<span class={"inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border backdrop-blur-sm " + STATUS_CLASSES[status]}>{status}</span>
+						<div>
+							<span class={"inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border backdrop-blur-sm " + STATUS_CLASSES[status]}>{status}</span>
+						</div>
 						<div>
 							{
 								projectUrl
