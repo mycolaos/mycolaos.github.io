@@ -63,7 +63,12 @@ const randomFooterOnInputText = getRandomItem(footerCopyrightOnInput);
 		</a>
 	</div>
 
-	<div class="text-md font-light text-muted-light">
+	<!-- When this container is `flex`, the fancy input's before: element opacity
+	appearance breaks and if user removes all the text, the before: element
+	appears only on blur, not while focusing. It's acceptable on mobile, but we
+	revert it to block on desktop, as its not necessary anyway to keep it as flex.
+	-->
+	<div class="flex flex-col items-center gap-1 md:block text-md font-light text-muted-light">
 		<span class="group">(c) 
 			<span class="group-hover:hidden inline">{today.getFullYear()}</span>
 			<span class="group-hover:inline hidden">2014</span>
@@ -71,8 +76,8 @@ const randomFooterOnInputText = getRandomItem(footerCopyrightOnInput);
 
 		<div id="footer-fancy-input" contenteditable tabindex="0" data-placeholder="Your name here."
 			spellcheck="false" autocorrect="off" autocomplete="off" autocapitalize="off"
-			class={"relative inline-block font-normal outline-primary hover:text-primary w-fit px-1 text-right" +
-			"focus:before:hidden focus:empty:before:font-light " + 
+			class={"relative inline-block font-normal outline-primary hover:text-primary w-fit px-1 " +
+			"focus:empty:before:font-light " + 
 			"empty:min-w-[160px] " + 
 			"empty:before:opacity-100 empty:before:content-[attr(data-placeholder)] " + 
 			"before:opacity-0 before:transition-opacity before:delay-500 before:duration-300 " +
