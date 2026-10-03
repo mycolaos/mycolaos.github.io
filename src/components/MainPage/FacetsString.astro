@@ -1,4 +1,6 @@
-<span id="facets-list" aria-live="polite" aria-atomic="true" class="list-none inline m-0 [&_span]:text-[1em] [&_span]:hidden [&>[aria-current=true]]:inline cursor-pointer text-primary">
+<span id="facets-list" aria-live="polite" aria-atomic="true" role="button" class={
+  "list-none inline m-0 cursor-pointer text-primary select-none " + 
+  "[&_span]:text-[1em] [&_span]:hidden [&>[aria-current=true]]:inline"}>
   <span aria-current="true">a Frontend Engineer</span>
   <span>a little bit Fullstack</span>
   <span>I love design, but I'm not a designer</span>
@@ -10,8 +12,11 @@
   document.addEventListener("astro:page-load", () => {
     const facetsList = document.getElementById('facets-list');
 
-    facetsList?.addEventListener('click', () =>{
-      console.log('click')
+    if (!facetsList) {
+      return;
+    }
+
+    facetsList.addEventListener('click', () => {      
       const current = facetsList.querySelector('[aria-current=true]');
       const next = current?.nextElementSibling || facetsList.firstElementChild;
       current?.removeAttribute('aria-current');
